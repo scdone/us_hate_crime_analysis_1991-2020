@@ -5,17 +5,17 @@
 >(overview)
 
 ## Dataset Description
->(dataset descriptions)
+>(working notebook links + dataset descriptions)
 
-## Exploratory Data Analysis
+## Data Wrangling and Cleaning
 >(working notebook link + short description)
 
-## Data Wrangling 
+## Exploratory Data Analysis
 >(working notebook link + short description)
 
 ## Statistical Analysis 
 >(working notebook link + short description)
 
-## Project Findings / Key Insights
+## Project Findings & Key Insights
 >(working notebook link + short description)
 
