@@ -1,0 +1,6 @@
+# ignores raw dataset folder
+datasets/
+
+# ignores planning docs
+planning/
+
