@@ -4,8 +4,8 @@
 ## Project Overview
 >(overview)
 
-## Dataset Description
->(working notebook links + dataset descriptions)
+## Dataset Descriptions
+>[FBI Hate Crime Dataset Description](/working_notebooks/dataset_descriptions/hate_crime_dataset_description.ipynb)
 
 ## Data Wrangling and Cleaning
 >(working notebook link + short description)
