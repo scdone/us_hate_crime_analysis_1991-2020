@@ -8,7 +8,6 @@
 >[FBI Hate Crime Dataset](/working_notebooks/dataset_descriptions/hate_crime_dataset_description.ipynb)
 
 <br/>
-<br/>
 
 >[US Census Population Dataset](working_notebooks\dataset_descriptions\population_dataset_description_and_wrangling.ipynb)
 
