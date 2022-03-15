@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np 
 import plotly.express as px
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 # loading data in for app 
@@ -306,6 +308,18 @@ fig_2020 = px.choropleth(map_2020,
                          color_continuous_scale = "tempo")
 fig_2020.update_layout(title_text='Total Reported Hate Crimes Per Capita Across the U.S. in 2020')
 
+# prep data for state histograms 
+
+df_state_pc_totals = pd.read_csv('datasets\state_totals_by_year.csv')
+
+
+
+
+
+
+
+
+
 
 
 # streamlit front end view
@@ -314,10 +328,23 @@ fig_2020.update_layout(title_text='Total Reported Hate Crimes Per Capita Across 
 # main title
 st.title("U.S. Hate Crimes from 2000-2020") 
 
+# histograms by state
+
+st.subheader("Trend in Hate Crimes Per Capita By State 2000-2020")
+
+st.line_chart(data=df_state_pc_totals['Alabama'])
+
+
+
+
+
+
+
+
 
 #map visuals
 
-
+st.subheader('U.S. Map Density Chart')
 year = st.slider('Move slider to see data from each year', 2000, 2020, 2000)
     
 if year == 2000:
