@@ -50,6 +50,7 @@ fig_2000 = px.choropleth(map_2000,
                          height=500,
                          width=750)
 fig_2000.update_layout(title_text='Total Reported Hate Crimes Per Capita Across the U.S. in 2000')
+fig_2000.update_geos(bgcolor='#0E1117')
 
 map_2001 = df_2001.copy()
 map_2001.drop(index=[8], inplace=True)
@@ -63,6 +64,7 @@ fig_2001 = px.choropleth(map_2001,
                          color= "Per Capita", 
                          color_continuous_scale = "Reds")
 fig_2001.update_layout(title_text='Total Reported Hate Crimes Per Capita Across the U.S. in 2001')
+fig_2001.update_geos(bgcolor='#0E1117')
 
 map_2002 = df_2002.copy()
 map_2002.drop(index=[8], inplace=True)
@@ -76,6 +78,7 @@ fig_2002 = px.choropleth(map_2002,
                          color= "Per Capita", 
                          color_continuous_scale = "Reds")
 fig_2002.update_layout(title_text='Total Reported Hate Crimes Per Capita Across the U.S. in 2002')
+fig_2002.update_geos(bgcolor='#0E1117')
 
 map_2003 = df_2003.copy()
 map_2003.drop(index=[8], inplace=True)
@@ -89,6 +92,7 @@ fig_2003 = px.choropleth(map_2003,
                          color= "Per Capita", 
                          color_continuous_scale = "Reds")
 fig_2003.update_layout(title_text='Total Reported Hate Crimes Per Capita Across the U.S. in 2003')
+fig_2003.update_geos(bgcolor='#0E1117')
 
 map_2004 = df_2004.copy()
 map_2004.drop(index=[8], inplace=True)
@@ -102,6 +106,7 @@ fig_2004 = px.choropleth(map_2004,
                          color= "Per Capita", 
                          color_continuous_scale = "Reds")
 fig_2004.update_layout(title_text='Total Reported Hate Crimes Per Capita Across the U.S. in 2004')
+fig_2004.update_geos(bgcolor='#0E1117')
 
 map_2005 = df_2005.copy()
 map_2005.drop(index=[8], inplace=True)
@@ -115,6 +120,7 @@ fig_2005 = px.choropleth(map_2005,
                          color= "Per Capita", 
                          color_continuous_scale = "Reds")
 fig_2005.update_layout(title_text='Total Reported Hate Crimes Per Capita Across the U.S. in 2005')
+fig_2005.update_geos(bgcolor='#0E1117')
 
 map_2006 = df_2006.copy()
 map_2006.drop(index=[8], inplace=True)
@@ -128,6 +134,7 @@ fig_2006 = px.choropleth(map_2006,
                          color= "Per Capita", 
                          color_continuous_scale = "Reds")
 fig_2006.update_layout(title_text='Total Reported Hate Crimes Per Capita Across the U.S. in 2006')
+fig_2006.update_geos(bgcolor='#0E1117')
 
 map_2007 = df_2007.copy()
 map_2007.drop(index=[8], inplace=True)
@@ -141,6 +148,7 @@ fig_2007 = px.choropleth(map_2007,
                          color= "Per Capita", 
                          color_continuous_scale = "Reds")
 fig_2007.update_layout(title_text='Total Reported Hate Crimes Per Capita Across the U.S. in 2007')
+fig_2007.update_geos(bgcolor='#0E1117')
 
 map_2008 = df_2008.copy()
 map_2008.drop(index=[8], inplace=True)
@@ -154,6 +162,7 @@ fig_2008 = px.choropleth(map_2008,
                          color= "Per Capita", 
                          color_continuous_scale = "Reds")
 fig_2008.update_layout(title_text='Total Reported Hate Crimes Per Capita Across the U.S. in 2008')
+fig_2008.update_geos(bgcolor='#0E1117')
 
 map_2009 = df_2009.copy()
 map_2009.drop(index=[8], inplace=True)
@@ -167,6 +176,7 @@ fig_2009 = px.choropleth(map_2009,
                          color= "Per Capita", 
                          color_continuous_scale = "Reds")
 fig_2009.update_layout(title_text='Total Reported Hate Crimes Per Capita Across the U.S. in 2009')
+fig_2009.update_geos(bgcolor='#0E1117')
 
 map_2010 = df_2010.copy()
 map_2010.drop(index=[8], inplace=True)
@@ -180,6 +190,7 @@ fig_2010 = px.choropleth(map_2010,
                          color= "Per Capita", 
                          color_continuous_scale = "Reds")
 fig_2010.update_layout(title_text='Total Reported Hate Crimes Per Capita Across the U.S. in 2010')
+fig_2010.update_geos(bgcolor='#0E1117')
 
 map_2011 = df_2011.copy()
 map_2011.drop(index=[8], inplace=True)
@@ -193,6 +204,7 @@ fig_2011 = px.choropleth(map_2011,
                          color= "Per Capita", 
                          color_continuous_scale = "Reds")
 fig_2011.update_layout(title_text='Total Reported Hate Crimes Per Capita Across the U.S. in 2011')
+fig_2011.update_geos(bgcolor='#0E1117')
 
 map_2012 = df_2012.copy()
 map_2012.drop(index=[8], inplace=True)
@@ -206,6 +218,7 @@ fig_2012 = px.choropleth(map_2012,
                          color= "Per Capita", 
                          color_continuous_scale = "Reds")
 fig_2012.update_layout(title_text='Total Reported Hate Crimes Per Capita Across the U.S. in 2012')
+fig_2012.update_geos(bgcolor='#0E1117')
 
 map_2013 = df_2013.copy()
 map_2013.drop(index=[8], inplace=True)
@@ -219,6 +232,7 @@ fig_2013 = px.choropleth(map_2013,
                          color= "Per Capita", 
                          color_continuous_scale = "Reds")
 fig_2013.update_layout(title_text='Total Reported Hate Crimes Per Capita Across the U.S. in 2013')
+fig_2013.update_geos(bgcolor='#0E1117')
 
 map_2014 = df_2014.copy()
 map_2014.drop(index=[8], inplace=True)
@@ -232,6 +246,7 @@ fig_2014 = px.choropleth(map_2014,
                          color= "Per Capita", 
                          color_continuous_scale = "Reds")
 fig_2014.update_layout(title_text='Total Reported Hate Crimes Per Capita Across the U.S. in 2014')
+fig_2014.update_geos(bgcolor='#0E1117')
 
 map_2015 = df_2015.copy()
 map_2015.drop(index=[8], inplace=True)
@@ -245,6 +260,7 @@ fig_2015 = px.choropleth(map_2015,
                          color= "Per Capita", 
                          color_continuous_scale = "Reds")
 fig_2015.update_layout(title_text='Total Reported Hate Crimes Per Capita Across the U.S. in 2015')
+fig_2015.update_geos(bgcolor='#0E1117')
 
 map_2016 = df_2016.copy()
 map_2016.drop(index=[8], inplace=True)
@@ -258,6 +274,7 @@ fig_2016 = px.choropleth(map_2016,
                          color= "Per Capita", 
                          color_continuous_scale = "Reds")
 fig_2016.update_layout(title_text='Total Reported Hate Crimes Per Capita Across the U.S. in 2016')
+fig_2016.update_geos(bgcolor='#0E1117')
 
 map_2017 = df_2017.copy()
 map_2017.drop(index=[8], inplace=True)
@@ -271,6 +288,7 @@ fig_2017 = px.choropleth(map_2017,
                          color= "Per Capita", 
                          color_continuous_scale = "Reds")
 fig_2017.update_layout(title_text='Total Reported Hate Crimes Per Capita Across the U.S. in 2017')
+fig_2017.update_geos(bgcolor='#0E1117')
 
 map_2018 = df_2018.copy()
 map_2018.drop(index=[8], inplace=True)
@@ -284,6 +302,7 @@ fig_2018 = px.choropleth(map_2018,
                          color= "Per Capita", 
                          color_continuous_scale = "Reds")
 fig_2018.update_layout(title_text='Total Reported Hate Crimes Per Capita Across the U.S. in 2018')
+fig_2018.update_geos(bgcolor='#0E1117')
 
 map_2019 = df_2019.copy()
 map_2019.drop(index=[8], inplace=True)
@@ -297,6 +316,7 @@ fig_2019 = px.choropleth(map_2019,
                          color= "Per Capita", 
                          color_continuous_scale = "Reds")
 fig_2019.update_layout(title_text='Total Reported Hate Crimes Per Capita Across the U.S. in 2019')
+fig_2019.update_geos(bgcolor='#0E1117')
 
 map_2020 = df_2020.copy()
 map_2020.drop(index=[8], inplace=True)
@@ -310,6 +330,7 @@ fig_2020 = px.choropleth(map_2020,
                          color= "Per Capita", 
                          color_continuous_scale = "Reds")
 fig_2020.update_layout(title_text='Total Reported Hate Crimes Per Capita Across the U.S. in 2020')
+fig_2020.update_geos(bgcolor='#0E1117')
 
 # prep data for us total line chart
 
@@ -888,13 +909,13 @@ wyoming_chart = alt.layer(line_wyoming, selectors_wyoming, points_wyoming, rules
 
 
 
-# streamlit front end view
+##########################  STREAMLIT FRONT END VIEW ####################################
 
 
 # main title
 st.title("U.S. Hate Crime Data Analysis") 
 
-# us total
+# us total - line chart
 
 st.subheader("Total Hate Crimes Per Capita in U.S. from 2000-2020")
 st.caption("(Per capita values are shown per 100,000 people)")
@@ -903,7 +924,7 @@ st.altair_chart(us_chart)
 
 
 
-# line charts by state
+# state totals - line charts
 
 st.subheader("Hate Crime Totals by State")
 st.caption("(Per capita values are shown per 100,000 people)")
