@@ -360,7 +360,7 @@ fig_2020.update_geos(bgcolor='#0E1117')
 
 # prep data for us total line chart
 
-us_totals_csv = Path(datasets\us_pop_totals.csv)
+us_totals_csv = Path("datasets", "us_pop_totals.csv")
 
 us_totals = pd.read_csv(us_totals_csv)
 
