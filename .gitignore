@@ -1,8 +1,5 @@
 # ignores raw dataset folder
-datasets\2020-2021_pop_est.csv
-datasets\BEA_per_capita_income_by_state_by_year.csv
-datasets\Hate_Crime_Methodology_2020.pdf
-datasets\hate_crime.csv
+data_to_ignore/
 
 
 # ignores planning docs
