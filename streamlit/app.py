@@ -385,7 +385,9 @@ us_chart = alt.layer(line_us_data, selectors, points, rules, text).properties(wi
 
 # prep data for state line charts
 
-state_df = pd.read_csv(r"C:\Users\14802\Desktop\hate-crime analysis\working_notebooks\EDA\state_totals_by_year.csv")
+state_totals_csv = Path("datasets", "state_totals_by_year.csv")
+
+state_df = pd.read_csv(state_totals_csv)
 state_df.year = state_df.year.astype(str)
 state_df.columns = state_df.columns.str.lower()
 
