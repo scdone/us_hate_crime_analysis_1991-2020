@@ -34,8 +34,6 @@ csv_2019 = Path("datasets", "per_capita_2019.csv")
 csv_2020 = Path("datasets", "per_capita_2020.csv")
 
 
-
-
 # loading data in for app 
 df_2000 = pd.read_csv(csv_2000)
 df_2001 = pd.read_csv(csv_2001)
@@ -58,7 +56,6 @@ df_2017 = pd.read_csv(csv_2017)
 df_2018 = pd.read_csv(csv_2018)
 df_2019 = pd.read_csv(csv_2019)
 df_2020 = pd.read_csv(csv_2020)
-
 
 
 # prep data for map visualizations
@@ -363,7 +360,9 @@ fig_2020.update_geos(bgcolor='#0E1117')
 
 # prep data for us total line chart
 
-us_totals = pd.read_csv(r"C:\Users\14802\Desktop\hate-crime analysis\working_notebooks\EDA\us_per_cap_totals.csv")
+us_totals_csv = Path(datasets\us_pop_totals.csv)
+
+us_totals = pd.read_csv(us_totals_csv)
 
 us_totals.year = us_totals.year.astype(str) # years need to be strings or Altair puts commas in the values
 
