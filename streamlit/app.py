@@ -6,31 +6,35 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 import seaborn as sns
 import altair as alt 
+from pathlib import Path
 
 
+# setting up csv paths
+
+csv_2000 = Path("datasets", "per_capita_2000.csv")
 
 # loading data in for app 
-df_2000 = pd.read_csv(r'datasets\per_capita_2000.csv')
-df_2001 = pd.read_csv(r'datasets\per_capita_2001.csv')
-df_2002 = pd.read_csv(r'datasets\per_capita_2002.csv')
-df_2003 = pd.read_csv(r'datasets\per_capita_2003.csv')
-df_2004 = pd.read_csv(r'datasets\per_capita_2004.csv')
-df_2005 = pd.read_csv(r'datasets\per_capita_2005.csv')
-df_2006 = pd.read_csv(r'datasets\per_capita_2006.csv')
-df_2007 = pd.read_csv(r'datasets\per_capita_2007.csv')
-df_2008 = pd.read_csv(r'datasets\per_capita_2008.csv')
-df_2009 = pd.read_csv(r'datasets\per_capita_2009.csv')
-df_2010 = pd.read_csv(r'datasets\per_capita_2010.csv')
-df_2011 = pd.read_csv(r'datasets\per_capita_2011.csv')
-df_2012 = pd.read_csv(r'datasets\per_capita_2012.csv')
-df_2013 = pd.read_csv(r'datasets\per_capita_2013.csv')
-df_2014 = pd.read_csv(r'datasets\per_capita_2014.csv')
-df_2015 = pd.read_csv(r'datasets\per_capita_2015.csv')
-df_2016 = pd.read_csv(r'datasets\per_capita_2016.csv')
-df_2017 = pd.read_csv(r'datasets\per_capita_2017.csv')
-df_2018 = pd.read_csv(r'datasets\per_capita_2018.csv')
-df_2019 = pd.read_csv(r'datasets\per_capita_2019.csv')
-df_2020 = pd.read_csv(r'datasets\per_capita_2020.csv')
+df_2000 = pd.read_csv(csv_2000)
+df_2001 = pd.read_csv('datasets\per_capita_2001.csv')
+df_2002 = pd.read_csv('datasets\per_capita_2002.csv')
+df_2003 = pd.read_csv('datasets\per_capita_2003.csv')
+df_2004 = pd.read_csv('datasets\per_capita_2004.csv')
+df_2005 = pd.read_csv('datasets\per_capita_2005.csv')
+df_2006 = pd.read_csv('datasets\per_capita_2006.csv')
+df_2007 = pd.read_csv('datasets\per_capita_2007.csv')
+df_2008 = pd.read_csv('datasets\per_capita_2008.csv')
+df_2009 = pd.read_csv('datasets\per_capita_2009.csv')
+df_2010 = pd.read_csv('datasets\per_capita_2010.csv')
+df_2011 = pd.read_csv('datasets\per_capita_2011.csv')
+df_2012 = pd.read_csv('datasets\per_capita_2012.csv')
+df_2013 = pd.read_csv('datasets\per_capita_2013.csv')
+df_2014 = pd.read_csv('datasets\per_capita_2014.csv')
+df_2015 = pd.read_csv('datasets\per_capita_2015.csv')
+df_2016 = pd.read_csv('datasets\per_capita_2016.csv')
+df_2017 = pd.read_csv('datasets\per_capita_2017.csv')
+df_2018 = pd.read_csv('datasets\per_capita_2018.csv')
+df_2019 = pd.read_csv('datasets\per_capita_2019.csv')
+df_2020 = pd.read_csv('datasets\per_capita_2020.csv')
 
 
 
