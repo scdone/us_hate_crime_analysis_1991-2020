@@ -35,6 +35,27 @@ csv_2017 = get_path("map_2017.csv")
 csv_2018 = get_path("map_2018.csv")
 csv_2019 = get_path("map_2019.csv")
 csv_2020 = get_path("map_2020.csv")
+pc_2000 = get_path("per_capita_2000.csv")
+pc_2001 = get_path("per_capita_2001.csv")
+pc_2002 = get_path("per_capita_2002.csv")
+pc_2003 = get_path("per_capita_2003.csv")
+pc_2004 = get_path("per_capita_2004.csv")
+pc_2005 = get_path("per_capita_2005.csv")
+pc_2006 = get_path("per_capita_2006.csv")
+pc_2007 = get_path("per_capita_2007.csv")
+pc_2008 = get_path("per_capita_2008.csv")
+pc_2009 = get_path("per_capita_2009.csv")
+pc_2010 = get_path("per_capita_2010.csv")
+pc_2011 = get_path("per_capita_2011.csv")
+pc_2012 = get_path("per_capita_2012.csv")
+pc_2013 = get_path("per_capita_2013.csv")
+pc_2014 = get_path("per_capita_2014.csv")
+pc_2015 = get_path("per_capita_2015.csv")
+pc_2016 = get_path("per_capita_2016.csv")
+pc_2017 = get_path("per_capita_2017.csv")
+pc_2018 = get_path("per_capita_2018.csv")
+pc_2019 = get_path("per_capita_2019.csv")
+pc_2020 = get_path("per_capita_2020.csv")
 
 # loading data in for app 
 
@@ -64,6 +85,27 @@ map_2017 = get_csv(csv_2017)
 map_2018 = get_csv(csv_2018)
 map_2019 = get_csv(csv_2019)
 map_2020 = get_csv(csv_2020)
+df_2000 = get_csv(pc_2000)
+df_2001 = get_csv(pc_2001)
+df_2002 = get_csv(pc_2002)
+df_2003 = get_csv(pc_2003)
+df_2004 = get_csv(pc_2004)
+df_2005 = get_csv(pc_2005)
+df_2006 = get_csv(pc_2006)
+df_2007 = get_csv(pc_2007)
+df_2008 = get_csv(pc_2008)
+df_2009 = get_csv(pc_2009)
+df_2010 = get_csv(pc_2010)
+df_2011 = get_csv(pc_2011)
+df_2012 = get_csv(pc_2012)
+df_2013 = get_csv(pc_2013)
+df_2014 = get_csv(pc_2014)
+df_2015 = get_csv(pc_2015)
+df_2016 = get_csv(pc_2016)
+df_2017 = get_csv(pc_2017)
+df_2018 = get_csv(pc_2018)
+df_2019 = get_csv(pc_2019)
+df_2020 = get_csv(pc_2020)
 
 # prep data for map visualizations
 
@@ -81,7 +123,6 @@ def make_map(df, year):
     fig.update_geos(bgcolor='#0E1117')
     return fig
 
-# st.write(fig_2000)
 fig_2000 = make_map(map_2000, 2000)
 fig_2001 = make_map(map_2001, 2001)
 fig_2002 = make_map(map_2002, 2002)
@@ -116,17 +157,11 @@ us_totals.year = us_totals.year.astype(str) # years need to be strings or Altair
 source_us_totals = us_totals.copy() # makes copy of us dataframe to be used as chart source
 
 nearest = alt.selection(type='single', nearest=True, on='mouseover', fields=['year'], empty='none') # creates interactivity on mouseover of chart
-
 line_us_data = alt.Chart(source_us_totals).mark_line(interpolate='basis').encode(alt.X('year',axis=alt.Axis(title="Year")), alt.Y('total_incidents_per_capita', axis=alt.Axis(title="Hate Crimes Per Capita")))
-
 selectors = alt.Chart(source_us_totals).mark_point().encode(x='year', opacity=alt.value(0),).add_selection(nearest)
-
 points = line_us_data.mark_point().encode(opacity=alt.condition(nearest, alt.value(1), alt.value(0)))
-
 text = line_us_data.mark_text(align='left', dx=5, dy=-5, color='white').encode(text=alt.condition(nearest, 'total_incidents_per_capita', alt.value(' ')))
-
 rules = alt.Chart(source_us_totals).mark_rule(color='gray').encode(x='year',).transform_filter(nearest)
-
 us_chart = alt.layer(line_us_data, selectors, points, rules, text).properties(width=700, height=400).configure_axis(labelFontSize=18, titleFontSize=18)
 
 
@@ -200,6 +235,37 @@ washington_chart = make_state_line('washington')
 wv_chart = make_state_line('west virginia')
 wisconsin_chart = make_state_line('wisconsin')
 wyoming_chart = make_state_line('wyoming')
+
+###### prep raw tables ######
+
+@st.experimental_memo()
+def get_table(df):
+    table = df[['state', 'total_incidents_per_capita']]
+    return table
+
+table_2000 = get_table(df_2000)
+table_2001 = get_table(df_2001)
+table_2002 = get_table(df_2002)
+table_2003 = get_table(df_2003)
+table_2004 = get_table(df_2004)
+table_2005 = get_table(df_2005)
+table_2006 = get_table(df_2006)
+table_2007 = get_table(df_2007)
+table_2008 = get_table(df_2008)
+table_2009 = get_table(df_2009)
+table_2010 = get_table(df_2010)
+table_2011 = get_table(df_2011)
+table_2012 = get_table(df_2012)
+table_2013 = get_table(df_2013)
+table_2014 = get_table(df_2014)
+table_2015 = get_table(df_2015)
+table_2016 = get_table(df_2016)
+table_2017 = get_table(df_2017)
+table_2018 = get_table(df_2018)
+table_2019 = get_table(df_2019)
+table_2020 = get_table(df_2020)
+
+
 
 
 ##########################  STREAMLIT FRONT END VIEW ####################################
@@ -426,47 +492,48 @@ if year == 2020:
 
 # Raw data section
 
-st.subheader('See raw data')
-st.caption('See raw data for total incidents per year per state (per 100,000 people)')
-st.caption('(Hint: Once the dataset is selected, click the column name to sort by ascending or descending values)')
+
+st.subheader('See raw data for total incidents by state')
+st.caption('(Per capita values are shown per 100,000 people)')
+st.caption('Hint: Once the dataset is selected, click the column name to sort by ascending or descending values')
 with st.expander('click to choose dataset'):
     if st.checkbox('2000'):
-        st.write(df_2000[['state', 'total_incidents_per_capita']])
+        st.write(table_2000)
     if st.checkbox('2001'):
-        st.write(df_2001[['state', 'total_incidents_per_capita']])
+        st.write(table_2001)
     if st.checkbox('2002'):
-        st.write(df_2002[['state', 'total_incidents_per_capita']])
+        st.write(table_2002)
     if st.checkbox('2003'):
-        st.write(df_2003[['state', 'total_incidents_per_capita']])
+        st.write(table_2003)
     if st.checkbox('2004'):
-        st.write(df_2004[['state', 'total_incidents_per_capita']])
+        st.write(table_2004)
     if st.checkbox('2005'):
-        st.write(df_2005[['state', 'total_incidents_per_capita']])
+        st.write(table_2005)
     if st.checkbox('2006'):
-        st.write(df_2006[['state', 'total_incidents_per_capita']])
+        st.write(table_2006)
     if st.checkbox('2007'):
-        st.write(df_2007[['state', 'total_incidents_per_capita']])
+        st.write(table_2007)
     if st.checkbox('2008'):
-        st.write(df_2008[['state', 'total_incidents_per_capita']])
+        st.write(table_2008)
     if st.checkbox('2009'):
-        st.write(df_2009[['state', 'total_incidents_per_capita']])
+        st.write(table_2009)
     if st.checkbox('2010'):
-        st.write(df_2010[['state', 'total_incidents_per_capita']])
+        st.write(table_2010)
     if st.checkbox('2011'):
-        st.write(df_2011[['state', 'total_incidents_per_capita']])
+        st.write(table_2011)
     if st.checkbox('2012'):
-        st.write(df_2013[['state', 'total_incidents_per_capita']])
+        st.write(table_2013)
     if st.checkbox('2014'):
-        st.write(df_2014[['state', 'total_incidents_per_capita']])
+        st.write(table_2014)
     if st.checkbox('2015'):
-        st.write(df_2015[['state', 'total_incidents_per_capita']])
+        st.write(table_2015)
     if st.checkbox('2016'):
-        st.write(df_2016[['state', 'total_incidents_per_capita']])
+        st.write(table_2016)
     if st.checkbox('2017'):
-        st.write(df_2017[['state', 'total_incidents_per_capita']])
+        st.write(table_2017)
     if st.checkbox('2018'):
-        st.write(df_2018[['state', 'total_incidents_per_capita']])
+        st.write(table_2018)
     if st.checkbox('2019'):
-        st.write(df_2019[['state', 'total_incidents_per_capita']])
+        st.write(table_2019)
     if st.checkbox('2020'):
-        st.write(df_2020[['state', 'total_incidents_per_capita']])
+        st.write(table_2020)
