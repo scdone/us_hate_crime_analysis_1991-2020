@@ -56,7 +56,7 @@ pc_2017 = get_path("per_capita_2017.csv")
 pc_2018 = get_path("per_capita_2018.csv")
 pc_2019 = get_path("per_capita_2019.csv")
 pc_2020 = get_path("per_capita_2020.csv")
-
+bias_csv = get_path("bias_per_capita.csv")
 # loading data in for app 
 
 @st.experimental_memo()
@@ -106,6 +106,10 @@ df_2017 = get_csv(pc_2017)
 df_2018 = get_csv(pc_2018)
 df_2019 = get_csv(pc_2019)
 df_2020 = get_csv(pc_2020)
+bias_df = get_csv(bias_csv)
+
+bias_df.year = bias_df.year.astype(str)
+
 
 # prep data for map visualizations
 
@@ -265,8 +269,47 @@ table_2018 = get_table(df_2018)
 table_2019 = get_table(df_2019)
 table_2020 = get_table(df_2020)
 
+###### prep bias charts ####
 
+@st.experimental_memo()
+def make_bias_line(bias):
+    line = alt.Chart(bias_df).mark_line(interpolate='basis').encode(alt.X('year',axis=alt.Axis(title="Year")), alt.Y(f'{bias}', axis=alt.Axis(title="Hate Crimes Per Capita")))
+    selectors = alt.Chart(bias_df).mark_point().encode(x='year', opacity=alt.value(0),).add_selection(nearest)
+    points = line.mark_point().encode(opacity=alt.condition(nearest, alt.value(1), alt.value(0)))
+    text = line.mark_text(align='left', dx=5, dy=-5, color='white').encode(text=alt.condition(nearest, f'{bias}', alt.value(' ')))
+    rules = alt.Chart(source_us_totals).mark_rule(color='gray').encode(x='year',).transform_filter(nearest)
+    chart = alt.layer(line, selectors, points, rules, text).properties(width=600, height=400).configure_axis(labelFontSize=18, titleFontSize=18)
+    return chart
 
+anti_american_indian_or_alaska_native = make_bias_line("anti_american_indian_or_alaska_native")
+anti_arab = make_bias_line("anti_arab") 
+anti_asian = make_bias_line("anti_asian")
+anti_atheism_agnosticism = make_bias_line("anti_atheism_agnosticism")
+anti_bisexual = make_bias_line("anti_bisexual")
+anti_black_or_african_american = make_bias_line("anti_black_or_african_american")
+anti_buddhist = make_bias_line("anti_buddhist")
+anti_catholic = make_bias_line("anti_catholic")
+anti_eastern_orthodox_russian_greek_other = make_bias_line("anti_eastern_orthodox_russian_greek_other")
+anti_female  = make_bias_line("anti_female")
+anti_gay_male  = make_bias_line("anti_gay_male")
+anti_gender_non_conforming  = make_bias_line("anti_gender_non_conforming")
+anti_heterosexual  = make_bias_line("anti_heterosexual")
+anti_hindu  = make_bias_line("anti-hindu")
+anti_hispanic_or_latino  = make_bias_line("anti_hispanic_or_latino")
+anti_islamic_muslim  = make_bias_line("anti_islamic_muslim")
+anti_jehovahs_witness  = make_bias_line("anti_jehovahs_witness")
+anti_jewish = make_bias_line("anti_jewish")
+anti_lesbian_female = make_bias_line("anti_lesbian_female")
+anti_male = make_bias_line("anti_male")
+anti_mental_disability = make_bias_line("anti_mental_disability")
+anti_mormon = make_bias_line("anti_mormon")
+anti_native_hawaiian_or_other_pacific_islander = make_bias_line("anti_native_hawaiian_or_other_pacific_islander")
+anti_physical_disability = make_bias_line("anti_physical_disability")
+anti_protestant = make_bias_line("anti_protestant")
+anti_sikh = make_bias_line("anti_sikh")
+anti_transgender = make_bias_line("anti_transgender")
+anti_white = make_bias_line("anti_white")
+anti_lgbtq_grouped = make_bias_line("anti_lgbtq_grouped")
 
 ##########################  STREAMLIT FRONT END VIEW ####################################
 
@@ -274,266 +317,364 @@ table_2020 = get_table(df_2020)
 # main title
 st.title("U.S. Hate Crime Data Analysis") 
 
+# side bar 
+with st.sidebar:
+    st.write("Welcome! Use the drop down menus below to select which data you would like to see.")
+incident_totals_selection = st.sidebar.selectbox("Total Hate Crimes Per Capita:", ("Select Data", "U.S. Totals", "State Totals", "State Totals - Map Visualization", "State Totals - Raw Data"))
+bias_totals_selection = st.sidebar.selectbox("Hate Crime Totals by Category:", ("Select Category", "All Bias Totals",
+ 'Anti-Arab',
+ 'Anti-Asian',
+ 'Anti-Atheist or Agnostic',
+ 'Anti-Bisexual',
+ 'Anti-Black or African American',
+ 'Anti-Buddhist',
+ 'Anti-Catholic',
+ 'Anti-Eastern Orthodox (Russian, Greek, and other)',
+ 'Anti-Female',
+ 'Anti-Gay (male)',
+ 'Anti-Gender Non-Conforming',
+ 'Anti-Heterosexual',
+ 'Anti-Hindu',
+ 'Anti-Hispanic or Latino',
+ 'Anti-Islamic (muslim)',
+ 'Anti-Jehovahs Witness',
+ 'Anti-Jewish',
+ 'Anti-Lesbian (female)',
+ 'Anti-Male',
+ 'Anti-Mental Disability',
+ 'Anti-Mormon',
+ 'Anti-Native American'
+ 'Anti-Pacific Islander',
+ 'Anti-Physical Disability',
+ 'Anti-Protestant',
+ 'Anti-Sikh',
+ 'Anti-Transgender',
+ 'Anti-White',
+ 'Anti-LGBTQ (grouped)'))
+
 # us total - line chart
 
-st.subheader("Total Hate Crimes Per Capita in U.S. from 2000-2020")
-st.caption("(Per capita values are shown per 100,000 people)")
+if incident_totals_selection == ("U.S. Totals"):
+    st.subheader("Total Hate Crimes Per Capita in U.S. from 2000-2020")
+    st.caption("(Per capita values are shown per 100,000 people)")
 
-st.altair_chart(us_chart)
+    st.altair_chart(us_chart)
 
 
 
 # state totals - line charts
 
-st.subheader("Hate Crime Totals by State")
-st.caption("(Per capita values are shown per 100,000 people)")
+if incident_totals_selection == ("State Totals"):
+    st.subheader("Hate Crime Totals by State")
+    st.caption("(Per capita values are shown per 100,000 people)")
 
-with st.expander("Click to Choose State"): 
-# Alabama line chart
-    if st.checkbox('Alabama'):
-        st.altair_chart(alabama_chart)
-# Alaska line chart    
-    if st.checkbox('Alaska'):
-        st.altair_chart(alaska_chart)
-# Arizona line chart    
-    if st.checkbox('Arizona'):
-        st.altair_chart(arizona_chart)
-# Arkansas line chart
-    if st.checkbox('Arkansas'):
-        st.altair_chart(arkansas_chart)
-# California line chart    
-    if st.checkbox('California'):
-        st.altair_chart(california_chart)
-# Colorado line chart
-    if st.checkbox('Colorado'):
-        st.altair_chart(colorado_chart)
-# Connecticut line chart
-    if st.checkbox('Connecticut'):
-        st.altair_chart(connecticut_chart)
-# Delaware line chart
-    if st.checkbox('Delaware'):
-        st.altair_chart(delaware_chart)
-# D.C. line chart
-    if st.checkbox('District of Columbia'):
-        st.altair_chart(dc_chart)
-# Florida Line Chart
-    if st.checkbox('Florida'):
-        st.altair_chart(florida_chart)
-# Georgia Line Chart
-    if st.checkbox('Georgia'):
-        st.altair_chart(georgia_chart)
-# Idaho Line Chart
-    if st.checkbox('Idaho'):
-        st.altair_chart(idaho_chart)
-# Illinois Line Chart
-    if st.checkbox('Illinois'):
-        st.altair_chart(illinois_chart)
-# Indiana Line Chart
-    if st.checkbox('Indiana'):
-        st.altair_chart(indiana_chart)
-# Iowa Line Chart
-    if st.checkbox('Iowa'):
-        st.altair_chart(iowa_chart)
-# Kansas Line Chart
-    if st.checkbox('Kansas'):
-        st.altair_chart(kansas_chart)
-# Kentucky Line Chart
-    if st.checkbox('Kentucky'):
-        st.altair_chart(kentucky_chart)
-# Louisiana Line Chart
-    if st.checkbox('Louisiana'):
-        st.altair_chart(louisiana_chart)
-# Maine Line Chart
-    if st.checkbox('Maine'):
-        st.altair_chart(maine_chart)
-# Maryland Line Chart
-    if st.checkbox('Maryland'):
-        st.altair_chart(maryland_chart)
-# Massachusetts Line Chart
-    if st.checkbox('Massachusetts'):
-        st.altair_chart(massachusetts_chart)
-# Michigan Line Chart
-    if st.checkbox('Michigan'):
-        st.altair_chart(michigan_chart)
-# Minnesota Line Chart
-    if st.checkbox('Minnesota'):
-        st.altair_chart(minnesota_chart)
-# Mississippi Line Chart
-    if st.checkbox('Mississippi'):
-        st.altair_chart(mississippi_chart)
-# Missouri Line Chart
-    if st.checkbox('Missouri'):
-        st.altair_chart(missouri_chart)
-# Montana Line Chart
-    if st.checkbox('Montana'):
-        st.altair_chart(montana_chart)
-# Nebraska Line Chart
-    if st.checkbox('Nebraska'):
-        st.altair_chart(nebraska_chart)
-# Nevada Line Chart
-    if st.checkbox('Nevada'):
-        st.altair_chart(nevada_chart)
-# New Hampshire Line Chart
-    if st.checkbox('New Hampshire'):
-        st.altair_chart(nh_chart)
-# New Jersey Line Chart
-    if st.checkbox('New Jersey'):
-        st.altair_chart(nj_chart)
-# New Mexico Line Chart
-    if st.checkbox('New Mexico'):
-        st.altair_chart(nm_chart)
-# New York Line Chart
-    if st.checkbox('New York'):
-        st.altair_chart(ny_chart)
-# North Carolina Line Chart
-    if st.checkbox('North Carolina'):
-        st.altair_chart(nc_chart)
-# North Dakota Line Chart
-    if st.checkbox('North Dakota'):
-        st.altair_chart(nd_chart)
-# Ohio Line Chart
-    if st.checkbox('Ohio'):
-        st.altair_chart(ohio_chart)
-# Oklahoma Line Chart
-    if st.checkbox('Oklahoma'):
-        st.altair_chart(oklahoma_chart)
-# Oregon Line Chart
-    if st.checkbox('Oregon'):
-        st.altair_chart(oregon_chart)
-# Pennsylvania Line Chart
-    if st.checkbox('Pennsylvania'):
-        st.altair_chart(pennsylvania_chart)
-# Rhode Island Line Chart
-    if st.checkbox('Rhode Island'):
-        st.altair_chart(ri_chart)
-# South Carolina Line Chart
-    if st.checkbox('South Carolina'):
-        st.altair_chart(sc_chart)
-# South Dakota Line Chart
-    if st.checkbox('South Dakota'):
-        st.altair_chart(sd_chart)
-# Tennessee Line Chart
-    if st.checkbox('Tennessee'):
-        st.altair_chart(tennessee_chart)
-# Texas Line Chart
-    if st.checkbox('Texas'):
-        st.altair_chart(texas_chart)
-# Utah Line Chart
-    if st.checkbox('Utah'):
-        st.altair_chart(utah_chart)
-# Vermont Line Chart
-    if st.checkbox('Vermont'):
-        st.altair_chart(vermont_chart)
-# Virginia Line Chart
-    if st.checkbox('Virginia'):
-        st.altair_chart(virginia_chart)
-# Washington Line Chart
-    if st.checkbox('Washington'):
-        st.altair_chart(washington_chart)
-# West Virginia Line Chart
-    if st.checkbox('West Virginia'):
-        st.altair_chart(wv_chart)
-# Wisconsin Line Chart
-    if st.checkbox('Wisconsin'):
-        st.altair_chart(wisconsin_chart)
-# Wyoming Line Chart
-    if st.checkbox('Wyoming'):
-        st.altair_chart(wyoming_chart)
+    with st.expander("Click to Choose State"): 
+    # Alabama line chart
+        if st.checkbox('Alabama'):
+            st.altair_chart(alabama_chart)
+    # Alaska line chart    
+        if st.checkbox('Alaska'):
+            st.altair_chart(alaska_chart)
+    # Arizona line chart    
+        if st.checkbox('Arizona'):
+            st.altair_chart(arizona_chart)
+    # Arkansas line chart
+        if st.checkbox('Arkansas'):
+            st.altair_chart(arkansas_chart)
+    # California line chart    
+        if st.checkbox('California'):
+            st.altair_chart(california_chart)
+    # Colorado line chart
+        if st.checkbox('Colorado'):
+            st.altair_chart(colorado_chart)
+    # Connecticut line chart
+        if st.checkbox('Connecticut'):
+            st.altair_chart(connecticut_chart)
+    # Delaware line chart
+        if st.checkbox('Delaware'):
+            st.altair_chart(delaware_chart)
+    # D.C. line chart
+        if st.checkbox('District of Columbia'):
+            st.altair_chart(dc_chart)
+    # Florida Line Chart
+        if st.checkbox('Florida'):
+            st.altair_chart(florida_chart)
+    # Georgia Line Chart
+        if st.checkbox('Georgia'):
+            st.altair_chart(georgia_chart)
+    # Idaho Line Chart
+        if st.checkbox('Idaho'):
+            st.altair_chart(idaho_chart)
+    # Illinois Line Chart
+        if st.checkbox('Illinois'):
+            st.altair_chart(illinois_chart)
+    # Indiana Line Chart
+        if st.checkbox('Indiana'):
+            st.altair_chart(indiana_chart)
+    # Iowa Line Chart
+        if st.checkbox('Iowa'):
+            st.altair_chart(iowa_chart)
+    # Kansas Line Chart
+        if st.checkbox('Kansas'):
+            st.altair_chart(kansas_chart)
+    # Kentucky Line Chart
+        if st.checkbox('Kentucky'):
+            st.altair_chart(kentucky_chart)
+    # Louisiana Line Chart
+        if st.checkbox('Louisiana'):
+            st.altair_chart(louisiana_chart)
+    # Maine Line Chart
+        if st.checkbox('Maine'):
+            st.altair_chart(maine_chart)
+    # Maryland Line Chart
+        if st.checkbox('Maryland'):
+            st.altair_chart(maryland_chart)
+    # Massachusetts Line Chart
+        if st.checkbox('Massachusetts'):
+            st.altair_chart(massachusetts_chart)
+    # Michigan Line Chart
+        if st.checkbox('Michigan'):
+            st.altair_chart(michigan_chart)
+    # Minnesota Line Chart
+        if st.checkbox('Minnesota'):
+            st.altair_chart(minnesota_chart)
+    # Mississippi Line Chart
+        if st.checkbox('Mississippi'):
+            st.altair_chart(mississippi_chart)
+    # Missouri Line Chart
+        if st.checkbox('Missouri'):
+            st.altair_chart(missouri_chart)
+    # Montana Line Chart
+        if st.checkbox('Montana'):
+            st.altair_chart(montana_chart)
+    # Nebraska Line Chart
+        if st.checkbox('Nebraska'):
+            st.altair_chart(nebraska_chart)
+    # Nevada Line Chart
+        if st.checkbox('Nevada'):
+            st.altair_chart(nevada_chart)
+    # New Hampshire Line Chart
+        if st.checkbox('New Hampshire'):
+            st.altair_chart(nh_chart)
+    # New Jersey Line Chart
+        if st.checkbox('New Jersey'):
+            st.altair_chart(nj_chart)
+    # New Mexico Line Chart
+        if st.checkbox('New Mexico'):
+            st.altair_chart(nm_chart)
+    # New York Line Chart
+        if st.checkbox('New York'):
+            st.altair_chart(ny_chart)
+    # North Carolina Line Chart
+        if st.checkbox('North Carolina'):
+            st.altair_chart(nc_chart)
+    # North Dakota Line Chart
+        if st.checkbox('North Dakota'):
+            st.altair_chart(nd_chart)
+    # Ohio Line Chart
+        if st.checkbox('Ohio'):
+            st.altair_chart(ohio_chart)
+    # Oklahoma Line Chart
+        if st.checkbox('Oklahoma'):
+            st.altair_chart(oklahoma_chart)
+    # Oregon Line Chart
+        if st.checkbox('Oregon'):
+            st.altair_chart(oregon_chart)
+    # Pennsylvania Line Chart
+        if st.checkbox('Pennsylvania'):
+            st.altair_chart(pennsylvania_chart)
+    # Rhode Island Line Chart
+        if st.checkbox('Rhode Island'):
+            st.altair_chart(ri_chart)
+    # South Carolina Line Chart
+        if st.checkbox('South Carolina'):
+            st.altair_chart(sc_chart)
+    # South Dakota Line Chart
+        if st.checkbox('South Dakota'):
+            st.altair_chart(sd_chart)
+    # Tennessee Line Chart
+        if st.checkbox('Tennessee'):
+            st.altair_chart(tennessee_chart)
+    # Texas Line Chart
+        if st.checkbox('Texas'):
+            st.altair_chart(texas_chart)
+    # Utah Line Chart
+        if st.checkbox('Utah'):
+            st.altair_chart(utah_chart)
+    # Vermont Line Chart
+        if st.checkbox('Vermont'):
+            st.altair_chart(vermont_chart)
+    # Virginia Line Chart
+        if st.checkbox('Virginia'):
+            st.altair_chart(virginia_chart)
+    # Washington Line Chart
+        if st.checkbox('Washington'):
+            st.altair_chart(washington_chart)
+    # West Virginia Line Chart
+        if st.checkbox('West Virginia'):
+            st.altair_chart(wv_chart)
+    # Wisconsin Line Chart
+        if st.checkbox('Wisconsin'):
+            st.altair_chart(wisconsin_chart)
+    # Wyoming Line Chart
+        if st.checkbox('Wyoming'):
+            st.altair_chart(wyoming_chart)
 
 
 
 #map visuals
-
-st.subheader('U.S. Map Density Chart')
-year = st.slider('Move slider to see data from each year', 2000, 2020, 2000)
-    
-if year == 2000:
-    st.write(fig_2000)
-if year == 2001:    
-    st.write(fig_2001)
-if year == 2002:
-    st.write(fig_2002)
-if year == 2003:    
-    st.write(fig_2003)
-if year == 2004:
-    st.write(fig_2004)
-if year == 2005:    
-    st.write(fig_2005)
-if year == 2006:
-    st.write(fig_2006)
-if year == 2007:    
-    st.write(fig_2007)
-if year == 2008:    
-    st.write(fig_2008)
-if year == 2009:    
-    st.write(fig_2009)
-if year == 2010:    
-    st.write(fig_2010)
-if year == 2011:    
-    st.write(fig_2011)
-if year == 2012:    
-    st.write(fig_2012)
-if year == 2013:    
-    st.write(fig_2013)
-if year == 2014:    
-    st.write(fig_2014)
-if year == 2015:    
-    st.write(fig_2015)
-if year == 2016:    
-    st.write(fig_2016)
-if year == 2017:    
-    st.write(fig_2017)
-if year == 2018:    
-    st.write(fig_2018)
-if year == 2019:    
-    st.write(fig_2019)
-if year == 2020:    
-    st.write(fig_2020)
+if incident_totals_selection == ("State Totals - Map Visualization"):
+    st.subheader('U.S. Map Density Chart')
+    year = st.slider('Move slider to see data from each year', 2000, 2020, 2000)
+        
+    if year == 2000:
+        st.write(fig_2000)
+    if year == 2001:    
+        st.write(fig_2001)
+    if year == 2002:
+        st.write(fig_2002)
+    if year == 2003:    
+        st.write(fig_2003)
+    if year == 2004:
+        st.write(fig_2004)
+    if year == 2005:    
+        st.write(fig_2005)
+    if year == 2006:
+        st.write(fig_2006)
+    if year == 2007:    
+        st.write(fig_2007)
+    if year == 2008:    
+        st.write(fig_2008)
+    if year == 2009:    
+        st.write(fig_2009)
+    if year == 2010:    
+        st.write(fig_2010)
+    if year == 2011:    
+        st.write(fig_2011)
+    if year == 2012:    
+        st.write(fig_2012)
+    if year == 2013:    
+        st.write(fig_2013)
+    if year == 2014:    
+        st.write(fig_2014)
+    if year == 2015:    
+        st.write(fig_2015)
+    if year == 2016:    
+        st.write(fig_2016)
+    if year == 2017:    
+        st.write(fig_2017)
+    if year == 2018:    
+        st.write(fig_2018)
+    if year == 2019:    
+        st.write(fig_2019)
+    if year == 2020:    
+        st.write(fig_2020)
 
 # Raw data section
 
+if incident_totals_selection == ("State Totals - Raw Data"):
+    st.subheader('See raw data for total incidents by state')
+    st.caption('(Per capita values are shown per 100,000 people)')
+    st.caption('Hint: Once the dataset is selected, click the column name to sort by ascending or descending values')
+    with st.expander('click to choose dataset'):
+        if st.checkbox('2000'):
+            st.write(table_2000)
+        if st.checkbox('2001'):
+            st.write(table_2001)
+        if st.checkbox('2002'):
+            st.write(table_2002)
+        if st.checkbox('2003'):
+            st.write(table_2003)
+        if st.checkbox('2004'):
+            st.write(table_2004)
+        if st.checkbox('2005'):
+            st.write(table_2005)
+        if st.checkbox('2006'):
+            st.write(table_2006)
+        if st.checkbox('2007'):
+            st.write(table_2007)
+        if st.checkbox('2008'):
+            st.write(table_2008)
+        if st.checkbox('2009'):
+            st.write(table_2009)
+        if st.checkbox('2010'):
+            st.write(table_2010)
+        if st.checkbox('2011'):
+            st.write(table_2011)
+        if st.checkbox('2012'):
+            st.write(table_2013)
+        if st.checkbox('2014'):
+            st.write(table_2014)
+        if st.checkbox('2015'):
+            st.write(table_2015)
+        if st.checkbox('2016'):
+            st.write(table_2016)
+        if st.checkbox('2017'):
+            st.write(table_2017)
+        if st.checkbox('2018'):
+            st.write(table_2018)
+        if st.checkbox('2019'):
+            st.write(table_2019)
+        if st.checkbox('2020'):
+            st.write(table_2020)
 
-st.subheader('See raw data for total incidents by state')
-st.caption('(Per capita values are shown per 100,000 people)')
-st.caption('Hint: Once the dataset is selected, click the column name to sort by ascending or descending values')
-with st.expander('click to choose dataset'):
-    if st.checkbox('2000'):
-        st.write(table_2000)
-    if st.checkbox('2001'):
-        st.write(table_2001)
-    if st.checkbox('2002'):
-        st.write(table_2002)
-    if st.checkbox('2003'):
-        st.write(table_2003)
-    if st.checkbox('2004'):
-        st.write(table_2004)
-    if st.checkbox('2005'):
-        st.write(table_2005)
-    if st.checkbox('2006'):
-        st.write(table_2006)
-    if st.checkbox('2007'):
-        st.write(table_2007)
-    if st.checkbox('2008'):
-        st.write(table_2008)
-    if st.checkbox('2009'):
-        st.write(table_2009)
-    if st.checkbox('2010'):
-        st.write(table_2010)
-    if st.checkbox('2011'):
-        st.write(table_2011)
-    if st.checkbox('2012'):
-        st.write(table_2013)
-    if st.checkbox('2014'):
-        st.write(table_2014)
-    if st.checkbox('2015'):
-        st.write(table_2015)
-    if st.checkbox('2016'):
-        st.write(table_2016)
-    if st.checkbox('2017'):
-        st.write(table_2017)
-    if st.checkbox('2018'):
-        st.write(table_2018)
-    if st.checkbox('2019'):
-        st.write(table_2019)
-    if st.checkbox('2020'):
-        st.write(table_2020)
+
+if bias_totals_selection == ('Anti-Arab'):
+    st.altair_chart(anti_arab)
+if bias_totals_selection == ('Anti-Asian'):
+    st.altair_chart(anti_asian)
+if bias_totals_selection == ('Anti-Atheist or Agnostic'):
+    st.altair_chart(anti_atheism_agnosticism)
+if bias_totals_selection == ('Anti-Bisexual'):
+    st.altair_chart(anti_bisexual)
+if bias_totals_selection == ('Anti-Black or African American'):
+    st.altair_chart(anti_black_or_african_american)
+if bias_totals_selection == ('Anti-Buddhist'):
+    st.altair_chart(anti_buddhist)
+if bias_totals_selection == ('Anti-Catholic'):
+    st.altair_chart(anti_catholic)
+if bias_totals_selection == ('Anti-Eastern Orthodox (Russian, Greek, and other)'):
+    st.altair_chart(anti_eastern_orthodox_russian_greek_other)
+if bias_totals_selection == ('Anti-Female'):
+    st.altair_chart(anti_female)
+if bias_totals_selection == ('Anti-Gay (male)'):
+    st.altair_chart(anti_gay_male)
+if bias_totals_selection == ('Anti-Gender Non-Conforming'):
+    st.altair_chart(anti_gender_non_conforming)
+if bias_totals_selection == ('Anti-Heterosexual'):
+    st.altair_chart(anti_heterosexual)
+if bias_totals_selection == ('Anti-Hindu'):
+    st.altair_chart(anti_hindu)
+if bias_totals_selection == ('Anti-Hispanic or Latino'):
+    st.altair_chart(anti_hispanic_or_latino)
+if bias_totals_selection == ('Anti-Islamic (muslim)'):
+    st.altair_chart(anti_islamic_muslim)
+if bias_totals_selection == ('Anti-Jehovahs Witness'):
+    st.altair_chart(anti_jehovahs_witness)
+if bias_totals_selection == ('Anti-Jewish'):
+    st.altair_chart(anti_jewish)
+if bias_totals_selection == ('Anti-Lesbian (female)'):
+    st.altair_chart(anti_lesbian_female)
+if bias_totals_selection == ('Anti-Male'):
+    st.altair_chart(anti_male)
+if bias_totals_selection == ('Anti-Mental Disability'):
+    st.altair_chart(anti_mental_disability)
+if bias_totals_selection == ('Anti-Mormon'):
+    st.altair_chart(anti_mormon)
+if bias_totals_selection == ('Anti-Native American'):
+    st.altair_chart(anti_american_indian_or_alaska_native)
+if bias_totals_selection == ('Anti-Pacific Islander'):
+    st.altair_chart(anti_native_hawaiian_or_other_pacific_islander)
+if bias_totals_selection == ('Anti-Physical Disability'):
+    st.altair_chart(anti_physical_disability)
+if bias_totals_selection == ('Anti-Protestant'):
+    st.altair_chart(anti_protestant)
+if bias_totals_selection == ('Anti-Sikh'):
+    st.altair_chart(anti_sikh)
+if bias_totals_selection == ('Anti-Transgender'):
+    st.altair_chart(anti_transgender)
+if bias_totals_selection == ('Anti-White'):
+    st.altair_chart(anti_white)
+if bias_totals_selection == ('Anti-LGBTQ (grouped)'):
+    st.altair_chart(anti_lgbtq_grouped)
+
