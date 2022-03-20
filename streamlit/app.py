@@ -108,7 +108,6 @@ df_2019 = get_csv(pc_2019)
 df_2020 = get_csv(pc_2020)
 bias_df = get_csv(bias_csv)
 
-bias_df.year = bias_df.year.astype(str)
 
 
 # prep data for map visualizations
@@ -294,7 +293,7 @@ anti_female  = make_bias_line("anti_female")
 anti_gay_male  = make_bias_line("anti_gay_male")
 anti_gender_non_conforming  = make_bias_line("anti_gender_non_conforming")
 anti_heterosexual  = make_bias_line("anti_heterosexual")
-anti_hindu  = make_bias_line("anti-hindu")
+anti_hindu  = make_bias_line("anti_hindu")
 anti_hispanic_or_latino  = make_bias_line("anti_hispanic_or_latino")
 anti_islamic_muslim  = make_bias_line("anti_islamic_muslim")
 anti_jehovahs_witness  = make_bias_line("anti_jehovahs_witness")
@@ -620,61 +619,61 @@ if incident_totals_selection == ("State Totals - Raw Data"):
 
 
 if bias_totals_selection == ('Anti-Arab'):
-    st.altair_chart(anti_arab)
+    st.write(anti_arab)
 if bias_totals_selection == ('Anti-Asian'):
-    st.altair_chart(anti_asian)
+    st.write(anti_asian)
 if bias_totals_selection == ('Anti-Atheist or Agnostic'):
-    st.altair_chart(anti_atheism_agnosticism)
+    st.write(anti_atheism_agnosticism)
 if bias_totals_selection == ('Anti-Bisexual'):
-    st.altair_chart(anti_bisexual)
+    st.write(anti_bisexual)
 if bias_totals_selection == ('Anti-Black or African American'):
-    st.altair_chart(anti_black_or_african_american)
+    st.write(anti_black_or_african_american)
 if bias_totals_selection == ('Anti-Buddhist'):
-    st.altair_chart(anti_buddhist)
+    st.write(anti_buddhist)
 if bias_totals_selection == ('Anti-Catholic'):
-    st.altair_chart(anti_catholic)
+    st.write(anti_catholic)
 if bias_totals_selection == ('Anti-Eastern Orthodox (Russian, Greek, and other)'):
-    st.altair_chart(anti_eastern_orthodox_russian_greek_other)
+    st.write(anti_eastern_orthodox_russian_greek_other)
 if bias_totals_selection == ('Anti-Female'):
-    st.altair_chart(anti_female)
+    st.write(anti_female)
 if bias_totals_selection == ('Anti-Gay (male)'):
-    st.altair_chart(anti_gay_male)
+    st.write(anti_gay_male)
 if bias_totals_selection == ('Anti-Gender Non-Conforming'):
-    st.altair_chart(anti_gender_non_conforming)
+    st.write(anti_gender_non_conforming)
 if bias_totals_selection == ('Anti-Heterosexual'):
-    st.altair_chart(anti_heterosexual)
+    st.write(anti_heterosexual)
 if bias_totals_selection == ('Anti-Hindu'):
-    st.altair_chart(anti_hindu)
+    st.write(anti_hindu)
 if bias_totals_selection == ('Anti-Hispanic or Latino'):
-    st.altair_chart(anti_hispanic_or_latino)
+    st.write(anti_hispanic_or_latino)
 if bias_totals_selection == ('Anti-Islamic (muslim)'):
-    st.altair_chart(anti_islamic_muslim)
+    st.write(anti_islamic_muslim)
 if bias_totals_selection == ('Anti-Jehovahs Witness'):
-    st.altair_chart(anti_jehovahs_witness)
+    st.write(anti_jehovahs_witness)
 if bias_totals_selection == ('Anti-Jewish'):
-    st.altair_chart(anti_jewish)
+    st.write(anti_jewish)
 if bias_totals_selection == ('Anti-Lesbian (female)'):
-    st.altair_chart(anti_lesbian_female)
+    st.write(anti_lesbian_female)
 if bias_totals_selection == ('Anti-Male'):
-    st.altair_chart(anti_male)
+    st.write(anti_male)
 if bias_totals_selection == ('Anti-Mental Disability'):
-    st.altair_chart(anti_mental_disability)
+    st.write(anti_mental_disability)
 if bias_totals_selection == ('Anti-Mormon'):
-    st.altair_chart(anti_mormon)
+    st.write(anti_mormon)
 if bias_totals_selection == ('Anti-Native American'):
-    st.altair_chart(anti_american_indian_or_alaska_native)
+    st.write(anti_american_indian_or_alaska_native)
 if bias_totals_selection == ('Anti-Pacific Islander'):
-    st.altair_chart(anti_native_hawaiian_or_other_pacific_islander)
+    st.write(anti_native_hawaiian_or_other_pacific_islander)
 if bias_totals_selection == ('Anti-Physical Disability'):
-    st.altair_chart(anti_physical_disability)
+    st.write(anti_physical_disability)
 if bias_totals_selection == ('Anti-Protestant'):
-    st.altair_chart(anti_protestant)
+    st.write(anti_protestant)
 if bias_totals_selection == ('Anti-Sikh'):
-    st.altair_chart(anti_sikh)
+    st.write(anti_sikh)
 if bias_totals_selection == ('Anti-Transgender'):
-    st.altair_chart(anti_transgender)
+    st.write(anti_transgender)
 if bias_totals_selection == ('Anti-White'):
-    st.altair_chart(anti_white)
+    st.write(anti_white)
 if bias_totals_selection == ('Anti-LGBTQ (grouped)'):
-    st.altair_chart(anti_lgbtq_grouped)
+    st.write(anti_lgbtq_grouped)
 
