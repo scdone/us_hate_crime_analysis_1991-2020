@@ -270,13 +270,15 @@ table_2020 = get_table(df_2020)
 
 ###### prep bias charts ####
 
+bias_df.year = bias_df.year.astype(str)
+
 @st.experimental_memo()
 def make_bias_line(bias):
-    line = alt.Chart(bias_df).mark_line(interpolate='basis').encode(alt.X('year',axis=alt.Axis(title="Year")), alt.Y(f'{bias}', axis=alt.Axis(title="Hate Crimes Per Capita")))
-    selectors = alt.Chart(bias_df).mark_point().encode(x='year', opacity=alt.value(0),).add_selection(nearest)
+    line = alt.Chart(bias_df).mark_line(interpolate='basis').encode(alt.X('year:N',axis=alt.Axis(title="Year")), alt.Y(f'{bias}', axis=alt.Axis(title="Hate Crimes Per Capita")))
+    selectors = alt.Chart(bias_df).mark_point().encode(x='year:N', opacity=alt.value(0),).add_selection(nearest)
     points = line.mark_point().encode(opacity=alt.condition(nearest, alt.value(1), alt.value(0)))
     text = line.mark_text(align='left', dx=5, dy=-5, color='white').encode(text=alt.condition(nearest, f'{bias}', alt.value(' ')))
-    rules = alt.Chart(source_us_totals).mark_rule(color='gray').encode(x='year',).transform_filter(nearest)
+    rules = alt.Chart(source_us_totals).mark_rule(color='gray').encode(x='year:N',).transform_filter(nearest)
     chart = alt.layer(line, selectors, points, rules, text).properties(width=600, height=400).configure_axis(labelFontSize=18, titleFontSize=18)
     return chart
 
@@ -619,61 +621,90 @@ if incident_totals_selection == ("State Totals - Raw Data"):
 
 
 if bias_totals_selection == ('Anti-Arab'):
+    st.subheader("Anti-Arab Hate Crimes Per Capita")
     st.write(anti_arab)
 if bias_totals_selection == ('Anti-Asian'):
+    st.subheader("Anti-Asian Hate Crimes Per Capita")
     st.write(anti_asian)
 if bias_totals_selection == ('Anti-Atheist or Agnostic'):
+    st.subheader("Anti-Atheist or Agnostic Hate Crimes Per Capita")
     st.write(anti_atheism_agnosticism)
 if bias_totals_selection == ('Anti-Bisexual'):
+    st.subheader("Anti-Bisexual Hate Crimes Per Capita")
     st.write(anti_bisexual)
 if bias_totals_selection == ('Anti-Black or African American'):
+    st.subheader("Anti-Black or African American Hate Crimes Per Capita")
     st.write(anti_black_or_african_american)
 if bias_totals_selection == ('Anti-Buddhist'):
+    st.subheader("Anti-Buddhist Hate Crimes Per Capita")
     st.write(anti_buddhist)
 if bias_totals_selection == ('Anti-Catholic'):
+    st.subheader("Anti-Catholic Hate Crimes Per Capita")
     st.write(anti_catholic)
 if bias_totals_selection == ('Anti-Eastern Orthodox (Russian, Greek, and other)'):
+    st.subheader("Anti-Eastern Orthodox (Russian, Greek, and other) Hate Crimes Per Capita")
     st.write(anti_eastern_orthodox_russian_greek_other)
 if bias_totals_selection == ('Anti-Female'):
+    st.subheader("Anti-Female Hate Crimes Per Capita")
     st.write(anti_female)
 if bias_totals_selection == ('Anti-Gay (male)'):
+    st.subheader("Anti-Gay (male) Hate Crimes Per Capita")
     st.write(anti_gay_male)
 if bias_totals_selection == ('Anti-Gender Non-Conforming'):
+    st.subheader("Anti-Gender Non-Conforming Hate Crimes Per Capita")
     st.write(anti_gender_non_conforming)
 if bias_totals_selection == ('Anti-Heterosexual'):
+    st.subheader("Anti-Heterosexual Hate Crimes Per Capita")
     st.write(anti_heterosexual)
 if bias_totals_selection == ('Anti-Hindu'):
+    st.subheader("Anti-Hindu Hate Crimes Per Capita")
     st.write(anti_hindu)
 if bias_totals_selection == ('Anti-Hispanic or Latino'):
+    st.subheader("Anti-Hispanic or Latino Hate Crimes Per Capita")
     st.write(anti_hispanic_or_latino)
 if bias_totals_selection == ('Anti-Islamic (muslim)'):
+    st.subheader("Anti-Islamic (muslim) Hate Crimes Per Capita")
     st.write(anti_islamic_muslim)
 if bias_totals_selection == ('Anti-Jehovahs Witness'):
+    st.subheader("Anti-Jehovah's Witness Hate Crimes Per Capita")
     st.write(anti_jehovahs_witness)
 if bias_totals_selection == ('Anti-Jewish'):
+    st.subheader("Anti-Jewish Hate Crimes Per Capita")
     st.write(anti_jewish)
 if bias_totals_selection == ('Anti-Lesbian (female)'):
+    st.subheader("Anti-Lesbian (female) Hate Crimes Per Capita")
     st.write(anti_lesbian_female)
 if bias_totals_selection == ('Anti-Male'):
+    st.subheader("Anti-Male Hate Crimes Per Capita")
     st.write(anti_male)
 if bias_totals_selection == ('Anti-Mental Disability'):
+    st.subheader("Anti-Mental Disability Hate Crimes Per Capita")
     st.write(anti_mental_disability)
 if bias_totals_selection == ('Anti-Mormon'):
+    st.subheader("Anti-Mormon Hate Crimes Per Capita")
     st.write(anti_mormon)
 if bias_totals_selection == ('Anti-Native American'):
+    st.subheader("Anti-Native American Hate Crimes Per Capita")
     st.write(anti_american_indian_or_alaska_native)
 if bias_totals_selection == ('Anti-Pacific Islander'):
+    st.subheader("Anti-Pacific Islander Hate Crimes Per Capita")
     st.write(anti_native_hawaiian_or_other_pacific_islander)
 if bias_totals_selection == ('Anti-Physical Disability'):
+    st.subheader("Anti-Physical Disability Hate Crimes Per Capita")
     st.write(anti_physical_disability)
 if bias_totals_selection == ('Anti-Protestant'):
+    st.subheader("Anti-Protestant Hate Crimes Per Capita")
     st.write(anti_protestant)
 if bias_totals_selection == ('Anti-Sikh'):
+    st.subheader("Anti-Sikh Hate Crimes Per Capita")
     st.write(anti_sikh)
 if bias_totals_selection == ('Anti-Transgender'):
+    st.subheader("Anti-Transgender Hate Crimes Per Capita")
     st.write(anti_transgender)
 if bias_totals_selection == ('Anti-White'):
+    st.subheader("Anti-White Hate Crimes Per Capita")
     st.write(anti_white)
 if bias_totals_selection == ('Anti-LGBTQ (grouped)'):
+    st.subheader("Anti-LGBTQ (grouped) Hate Crimes Per Capita")
     st.write(anti_lgbtq_grouped)
 
