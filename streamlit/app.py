@@ -160,7 +160,7 @@ us_totals.year = us_totals.year.astype(str) # years need to be strings or Altair
 source_us_totals = us_totals.copy() # makes copy of us dataframe to be used as chart source
 
 nearest = alt.selection(type='single', nearest=True, on='mouseover', fields=['year'], empty='none') # creates interactivity on mouseover of chart
-line_us_data = alt.Chart(source_us_totals).mark_line(interpolate='basis').encode(alt.X('year',axis=alt.Axis(title="Year")), alt.Y('total_incidents_per_capita', axis=alt.Axis(title="Hate Crimes Per Capita")))
+line_us_data = alt.Chart(source_us_totals).mark_line(interpolate='basis').encode(alt.X('year',axis=alt.Axis(title="Year")), alt.Y('total_incidents_per_capita', axis=alt.Axis(title="Hate Crimes Per Capita"), scale=alt.Scale(bins=[0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10], domain=[0,10])))
 selectors = alt.Chart(source_us_totals).mark_point().encode(x='year', opacity=alt.value(0),).add_selection(nearest)
 points = line_us_data.mark_point().encode(opacity=alt.condition(nearest, alt.value(1), alt.value(0)))
 text = line_us_data.mark_text(align='left', dx=5, dy=-5, color='white').encode(text=alt.condition(nearest, 'total_incidents_per_capita', alt.value(' ')))
@@ -180,13 +180,35 @@ state_df.columns = state_df.columns.str.lower()
 
 @st.experimental_memo()
 def make_state_line(state):
-    line = alt.Chart(state_df).mark_line(interpolate='basis').encode(alt.X('year',axis=alt.Axis(title="Year")), alt.Y(f'{state}', axis=alt.Axis(title="Hate Crimes Per Capita")))
+    line = alt.Chart(state_df).mark_line(interpolate='basis').encode(alt.X('year',axis=alt.Axis(title="Year")), alt.Y(f'{state}', axis=alt.Axis(title="Hate Crimes Per Capita"), scale=alt.Scale(bins=[0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10], domain=[0,10])))
     selectors = alt.Chart(state_df).mark_point().encode(x='year', opacity=alt.value(0),).add_selection(nearest)
     points = line.mark_point().encode(opacity=alt.condition(nearest, alt.value(1), alt.value(0)))
     text = line.mark_text(align='left', dx=5, dy=-5, color='white').encode(text=alt.condition(nearest, f'{state}', alt.value(' ')))
     rules = alt.Chart(source_us_totals).mark_rule(color='gray').encode(x='year',).transform_filter(nearest)
     chart = alt.layer(line, selectors, points, rules, text).properties(width=700, height=400).configure_axis(labelFontSize=18, titleFontSize=18)
     return chart
+
+@st.experimental_memo()
+def make_dc_line(state):
+    line = alt.Chart(state_df).mark_line(interpolate='basis').encode(alt.X('year',axis=alt.Axis(title="Year")), alt.Y(f'{state}', axis=alt.Axis(title="Hate Crimes Per Capita"), scale=alt.Scale(bins=[0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,12,12.5,13,13.5,14,14.5,15, 20, 25, 30, 35], domain=[0,32])))
+    selectors = alt.Chart(state_df).mark_point().encode(x='year', opacity=alt.value(0),).add_selection(nearest)
+    points = line.mark_point().encode(opacity=alt.condition(nearest, alt.value(1), alt.value(0)))
+    text = line.mark_text(align='left', dx=5, dy=-5, color='white').encode(text=alt.condition(nearest, f'{state}', alt.value(' ')))
+    rules = alt.Chart(source_us_totals).mark_rule(color='gray').encode(x='year',).transform_filter(nearest)
+    chart = alt.layer(line, selectors, points, rules, text).properties(width=700, height=400).configure_axis(labelFontSize=18, titleFontSize=18)
+    return chart
+
+@st.experimental_memo()
+def make_nj_line(state):
+    line = alt.Chart(state_df).mark_line(interpolate='basis').encode(alt.X('year',axis=alt.Axis(title="Year")), alt.Y(f'{state}', axis=alt.Axis(title="Hate Crimes Per Capita"), scale=alt.Scale(bins=[0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10,11,12,13,14,15], domain=[0,15])))
+    selectors = alt.Chart(state_df).mark_point().encode(x='year', opacity=alt.value(0),).add_selection(nearest)
+    points = line.mark_point().encode(opacity=alt.condition(nearest, alt.value(1), alt.value(0)))
+    text = line.mark_text(align='left', dx=5, dy=-5, color='white').encode(text=alt.condition(nearest, f'{state}', alt.value(' ')))
+    rules = alt.Chart(source_us_totals).mark_rule(color='gray').encode(x='year',).transform_filter(nearest)
+    chart = alt.layer(line, selectors, points, rules, text).properties(width=700, height=400).configure_axis(labelFontSize=18, titleFontSize=18)
+    return chart
+
+# scale=alt.Scale(domain=[0,30])
 
 alabama_chart = make_state_line('alabama')
 alaska_chart = make_state_line('alaska')
@@ -196,7 +218,7 @@ california_chart = make_state_line('california')
 colorado_chart = make_state_line('colorado')
 connecticut_chart = make_state_line('connecticut')
 delaware_chart = make_state_line('delaware')
-dc_chart = make_state_line('district of columbia')
+dc_chart = make_dc_line('district of columbia')
 florida_chart = make_state_line('florida')
 georgia_chart = make_state_line('georgia')
 idaho_chart = make_state_line('idaho')
@@ -217,7 +239,7 @@ montana_chart = make_state_line('montana')
 nebraska_chart = make_state_line('nebraska')
 nevada_chart = make_state_line('nevada')
 nh_chart = make_state_line('new hampshire')
-nj_chart = make_state_line('new jersey')
+nj_chart = make_nj_line('new jersey')
 ny_chart = make_state_line('new york')
 nm_chart = make_state_line('new mexico')
 nc_chart = make_state_line('north carolina')
@@ -392,6 +414,7 @@ if page_view == ("See All U.S. Data"):
     if year == 2020:    
         st.write(fig_2020)
 
+    st.subheader("Total Hate Crimes Per Capita - U.S. 2000-2020")
     st.caption("(Per capita values are shown per 100,000 people)")
     st.altair_chart(us_chart)
 
@@ -650,7 +673,8 @@ if page_view == ("Compare Hate Crime Bias Categories"):
 
 if page_view == ("Compare States"):
     st.subheader("Compare State Trends - Number of Hate Crimes Per Capita")
-    st.caption("(Per capita values are shown per 100,000 people). Data for Hawaii and U.S. territories not available.")
+    st.caption("(Per capita values are shown per 100,000 people. Data for Hawaii and U.S. territories not available).")
+    st.caption("Note: ")
     
     
     us_totals = st.checkbox('Display U.S. Totals', value=False)
@@ -839,6 +863,7 @@ if page_view == ("Compare States"):
         st.altair_chart(delaware_chart)
 # D.C. line chart
     if state_selector_2 == ('District of Columbia'):
+        st.caption("Note: District of Columbia is an outlier in this dataset, with much higher hate crimes per capita than other states. When comparing states, please note the change in the Y-axis of the graph for D.C. which depicts the change in values.")
         st.altair_chart(dc_chart)
 # Florida Line Chart
     if state_selector_2 == ('Florida'):
