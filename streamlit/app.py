@@ -316,21 +316,31 @@ anti_lgbtq_grouped = make_bias_line("anti_lgbtq_grouped")
 
 
 # main title
-st.title("U.S. Hate Crime Data Analysis") 
+st.title("U.S. Hate Crime - Data Analysis") 
+st.markdown("###### by [Stetson Done](https://www.linkedin.com/in/stetson-done/)")
 
 # side bar 
 with st.sidebar:
-    st.write("Welcome!")
-    page_view = st.radio("What Would You Like to See?", ("About", "See All U.S. Data", "Compare States", "Compare Hate Crime Bias Categories", "See Political Data Analysis", "See Raw Data"))
+    st.subheader("Welcome!")
+    st.write("| click below to navigate page view |")
+    page_view = st.radio("What would you like to see?", ("About", "See All U.S. Data", "Compare States", "Compare Hate Crime Bias Categories", "See Political Data Analysis", "See Raw Data"))
 
 #### ABOUT SECTION ######
 
 if page_view == ("About"):
-    st.header('Welcome! This is an about section.')
-    st.write("About")
-    st.write('How to use')
-    st.write('Sources')
-
+    st.header("Welcome.")
+    st.subheader("About:")
+    st.write("This interactive web application serves as a visual data analysis for reported hate crimes in the United States from 2000-2020.")
+    st.write("This hate crime data was compiled and provided to the public by the U.S. Federal Bureau of Investigation (FBI).") 
+    st.write('The FBI considers crimes which are motivated in whole or in part by bias against a race, gender, gender identity, religion, disability, sexual orientation, or ethnicity to be classified as hate crimes. The presence of bias by an offender alone does not constitute a hate crime, as it must be shown through investigation that the particular crime was motivated by said bias.')
+    st.write('For a complete project description, please see the README and GitHub repository for this project [HERE]("https://github.com/scdone/us_hate_crime_analysis_1991-2020").')
+    st.subheader('How to use:')
+    st.write("Interact with the sidebar on the left to choose which data you would like to be displayed.")
+    st.subheader('Sources:')
+    st.write("Data for this analysis was compiled from [FBI U.S. hate crime data](https://crime-data-explorer.fr.cloud.gov/pages/downloads), [U.S. Census data](https://www.census.gov/data.html), and data from the [Pew Research Center](https://www.pewresearch.org/politics/2017/10/24/political-typology-reveals-deep-fissures-on-the-right-and-left/). To see all data wrangling and cleaning efforts, click [here](https://github.com/scdone/us_hate_crime_analysis_1991-2020/tree/main/jupyter_notebooks).")
+    st.subheader("Limitations:")
+    st.write("This data is collected by the FBI through local law enforcement agencies. It must be understood by anyone analyzing or looking at the analysis of the data that the data does not represent law enforcement effectiveness. In addition, different states' local agencies had different levels of participation in the Uniform Crime Report over time, and therefore there may be some inherent exclusions of hate crimes which were not reported by local agencies.") 
+    st.write("Moreover, it is important to remember that due to the nature of hate crimes, victims are often part of marginalized communities. Therefore, many hate crimes are unreported by the victims due to fear of re-victimization or retaliation. Thus, there may be additional shortcomings from the analysis of the data as a true representation of all hate crime across the United States.")
 
 # us total - line chart
 
