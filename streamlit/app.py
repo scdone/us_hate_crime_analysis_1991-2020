@@ -185,7 +185,7 @@ def make_state_line(state):
     points = line.mark_point().encode(opacity=alt.condition(nearest, alt.value(1), alt.value(0)))
     text = line.mark_text(align='left', dx=5, dy=-5, color='white').encode(text=alt.condition(nearest, f'{state}', alt.value(' ')))
     rules = alt.Chart(source_us_totals).mark_rule(color='gray').encode(x='year',).transform_filter(nearest)
-    chart = alt.layer(line, selectors, points, rules, text).properties(width=600, height=400).configure_axis(labelFontSize=18, titleFontSize=18)
+    chart = alt.layer(line, selectors, points, rules, text).properties(width=700, height=400).configure_axis(labelFontSize=18, titleFontSize=18)
     return chart
 
 alabama_chart = make_state_line('alabama')
@@ -279,7 +279,7 @@ def make_bias_line(bias):
     points = line.mark_point().encode(opacity=alt.condition(nearest, alt.value(1), alt.value(0)))
     text = line.mark_text(align='left', dx=5, dy=-5, color='white').encode(text=alt.condition(nearest, f'{bias}', alt.value(' ')))
     rules = alt.Chart(source_us_totals).mark_rule(color='gray').encode(x='year:N',).transform_filter(nearest)
-    chart = alt.layer(line, selectors, points, rules, text).properties(width=600, height=400).configure_axis(labelFontSize=18, titleFontSize=18)
+    chart = alt.layer(line, selectors, points, rules, text).properties(width=700, height=400).configure_axis(labelFontSize=18, titleFontSize=18)
     return chart
 
 anti_american_indian_or_alaska_native = make_bias_line("anti_american_indian_or_alaska_native")
@@ -329,13 +329,13 @@ with st.sidebar:
 
 if page_view == ("About"):
     st.header("Welcome.")
-    st.subheader("About:")
     st.write("This interactive web application serves as a visual data analysis for reported hate crimes in the United States from 2000-2020.")
-    st.write("This hate crime data was compiled and provided to the public by the U.S. Federal Bureau of Investigation (FBI).") 
-    st.write('The FBI considers crimes which are motivated in whole or in part by bias against a race, gender, gender identity, religion, disability, sexual orientation, or ethnicity to be classified as hate crimes. The presence of bias by an offender alone does not constitute a hate crime, as it must be shown through investigation that the particular crime was motivated by said bias.')
-    st.write('For a complete project description, please see the README and GitHub repository for this project [HERE]("https://github.com/scdone/us_hate_crime_analysis_1991-2020").')
     st.subheader('How to use:')
     st.write("Interact with the sidebar on the left to choose which data you would like to be displayed.")
+    st.subheader("About:")
+    st.write("The hate crime data used for this analysis was compiled and provided to the public by the U.S. Federal Bureau of Investigation (FBI).") 
+    st.write('The FBI considers crimes which are motivated in whole or in part by bias against a race, gender, gender identity, religion, disability, sexual orientation, or ethnicity to be classified as hate crimes. The presence of bias by an offender alone does not constitute a hate crime, as it must be shown through investigation that the particular crime was motivated by said bias.')
+    st.write('For a complete project description, please see the README and GitHub repository for this project [HERE]("https://github.com/scdone/us_hate_crime_analysis_1991-2020").')
     st.subheader('Sources:')
     st.write("Data for this analysis was compiled from [FBI U.S. hate crime data](https://crime-data-explorer.fr.cloud.gov/pages/downloads), [U.S. Census data](https://www.census.gov/data.html), and data from the [Pew Research Center](https://www.pewresearch.org/politics/2017/10/24/political-typology-reveals-deep-fissures-on-the-right-and-left/). To see all data wrangling and cleaning efforts, click [here](https://github.com/scdone/us_hate_crime_analysis_1991-2020/tree/main/jupyter_notebooks).")
     st.subheader("Limitations:")
@@ -404,7 +404,7 @@ if page_view == ("Compare Hate Crime Bias Categories"):
         st.subheader("U.S. Total Incidents Per Capita Combined")
         st.altair_chart(us_chart)
 
-    st.subheader("Compare Hate Crime Biases Below")
+    st.subheader("Compare Trends of Hate Crime Biases")
 
     bias_totals_selection = st.selectbox("Category 1:", ("Select Category",
     'Anti-Arab',
@@ -649,8 +649,8 @@ if page_view == ("Compare Hate Crime Bias Categories"):
 
 
 if page_view == ("Compare States"):
-    st.subheader("Compare States - Number of Hate Crimes Per Capita")
-    st.caption("(Per capita values are shown per 100,000 people)")
+    st.subheader("Compare State Trends - Number of Hate Crimes Per Capita")
+    st.caption("(Per capita values are shown per 100,000 people). Data for Hawaii and U.S. territories not available.")
     
     
     us_totals = st.checkbox('Display U.S. Totals', value=False)
