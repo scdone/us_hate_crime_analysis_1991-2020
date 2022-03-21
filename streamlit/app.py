@@ -1019,8 +1019,64 @@ if page_view == ("See Raw Data"):
 
 if page_view == ("See Political Data Analysis"):
 
-    st.write("update with political data analysis")
+    st.header("Exploratory Data Analysis:") 
 
+    st.subheader("How are changes in political opinions over time related to trends in hate crimes per capita?")
+
+    st.write("As I compiled and visualized the data in this project, I wondered what factors may be affecting changes in hate crimes per capita of certain bias categories.")
+
+    st.write("Using data from the Pew Research Center, a research institute which surveys respondents across the U.S. on various topics, I asked the following questions: ")
+
+
+    st.write(" 1. What relationship is there, if any, between the percentage of people who believe homomsexuality should be accepted by society and the amount of anti-gay or anti-lesbian hate crimes per capita?")
+
+    st.write(" 2. What relationship is there, if any, between the percentage of people who support gay and lesbian marriage and the amount of anti-gay or anti-lesbian hate crimes per capita?")
+
+    st.write("Before we go further, it is important to emphasize correlation does not equal causation. In this analysis, I am looking at relationships bewtween variables but it should not be assumed a causal relationship exists when any amount of correlation is present.")
+
+    st.write("From my analysis, I gained the following insights:")
+
+    st.subheader("1. What relationship is there, if any, between the percentage of people who believe homomsexuality should be accepted by society and the amount of anti-gay or anti-lesbian hate crimes per capita?")
+    st.write("The data used for this analysis consisted of total hate crimes per capita in the U.S. which were classified as Anti-Gay (male) or Anti-Lesbian (female), and results from Pew Research Center surveys of the percentage of people who agreed that homosexuality should be accepted by society. Both sets of data spanned from 2000-2020. I chose not to include the grouped LGBTQ hate crimes in this analysis because the question posed was only related to homosexuality, not gender identity or other groups within the LGBTQ+ community. ")
+
+    st.write("First, I ran a pearsonr calculation on the data, which provides a correlation coefficient and a p-value of two data sets. For the correlation coefficient, the closer the number is to -1 or 1, the stronger the correlation. For the p-value, anything under 0.05 is considered to be statistically significant.")
+
+    st.write("For the anti-gay hate crimes, the pearsonr calculation showed a coefficient of -0.5 and p-value of 0.02, which suggests a **moderate negative relationship which is statistically significant.** In other words, as the the percent of people who believed homosexuality should be accepted by society increased, the anti-gay hate crimes per capita decreased. A scatterplot of the two variables is shown below:")
+
+    st.header("[add plot]")
+
+    st.write("For the anti-lesbian hate crimes, the coefficient and p-value from the pearsonr calculation were -0.8 and -0.00001 respectively, which indicates a **strong negative relationship with high statistical significance.** A scatterplot of the two variables is shown below: ")
+
+    st.header("[add plot]")
+
+    st.subheader(" 2. What relationship is there, if any, between the percentage of people who support gay and lesbian marriage and the amount of anti-gay or anti-lesbian hate crimes per capita?")
+
+    st.write("Similar to the analysis of the data above, the data used to answer this question was total hate crimes per capita in the U.S. which were classified as Anti-Gay (male) or Anti-Lesbian (female), and results from Pew Research Center surveys of the percentage of people who supported the legality of gay and lesbian marriage.")
+
+    st.write("For the anti-gay data, the coefficient was -0.56 with a p-value of 0.009, which suggests a **moderate negative relationship which is statistically significant**. A scattlerplot of the data is shown below:")
+
+    st.header("[add plot]")
+
+    st.write('The anti-lesbian data showed a **strong negative relationship with a high statistical significance** with a coefficient of -0.8 and a p-value of 0.000006. A scatterplot of the data is shown below:')
+
+    st.header("[add plot]")
+
+
+    st.subheader("Future Questions")
+
+    st.write("There are many more questions I would like to analyze in the future upon finding the appropriate data.") 
+    st.write("For instance, can anything be identified which could explain the increase of hate crimes across the U.S. over the last six years? In the chart below, we can see the rate of hate crimes per capita has risen every year since 2014, back to levels on par with 2001 (post-9/11).")
+    st.subheader("U.S. Hate Crimes Per Capita")
+    st.write(us_chart)
+
+    st.write("Similarly, I am very interested in what factors might explain this dramatic increase over the past 8 years of anti-transgender hate crimes:")
+    st.caption("(Anti-Transgender hate crime was not tracked until 2012, thus the zero values until then. However, every year since anti-transgender crimes have been tracked, they have increased dramatically.)")
+    st.subheader("Anti-Transgender Hate Crimes Per Capita")
+    st.write(anti_transgender)
+
+    st.subheader("Conclusion")
+
+    st.write("As they say, knowledge is power. As I continue searching for appropriate data to compare with reported hate crimes in the U.S., I hope to find answers to some of these questions. Afterall, if we can identify related social or political factors, we may be on the way to finding factors which could decrease the rate of hate crimes against marginalized communities.")
 
 
 
