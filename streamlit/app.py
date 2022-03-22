@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import altair as alt 
 from pathlib import Path
+from PIL import Image
 
 # setting up csv paths
 
@@ -59,16 +60,12 @@ pc_2020 = get_path("per_capita_2020.csv")
 bias_csv = get_path("bias_per_capita.csv")
 
 
-# get image paths
+# get images
 
-@st.experimental_memo()
-def get_image_path(csv):
-    return Path("images", csv)
-
-gay_marriage_regplot = get_image_path("gay_marriage.png")
-gay_society_regplot = get_image_path("gay_society_regplot.png")
-lesbian_marriage_regplot = get_image_path("lesbian_marriage.png")
-lesbian_society_regplot = get_image_path("lesbian_society_regplot.png")
+gay_society_regplot = Image.open("streamlit\gay_society_regplot.png")
+gay_marriage_regplot = Image.open("streamlit\gay_marriage.png")
+lesbian_society_regplot = Image.open("streamlit\lesbian_society_regplot.png")
+lesbian_marriage_regplot = Image.open("streamlit\lesbian_marriage.png")
 
 
 
@@ -1101,11 +1098,11 @@ if page_view == ("See Political Data Analysis"):
 
     st.write("For the anti-gay hate crimes, the pearsonr calculation showed a coefficient of -0.5 and p-value of 0.02, which suggests a **moderate negative relationship which is statistically significant.** In other words, as the the percent of people who believed homosexuality should be accepted by society increased, the anti-gay hate crimes per capita decreased. A regression plot of the two variables is shown below:")
 
-    st.image("streamlit\gay_society_regplot.png")
+    st.image(gay_society_regplot)
 
     st.write("For the anti-lesbian hate crimes, the coefficient and p-value from the pearsonr calculation were -0.8 and -0.00001 respectively, which indicates a **strong negative relationship with high statistical significance.** A regression plot of the two variables is shown below: ")
 
-    st.image("streamlit\lesbian_society_regplot.png")
+    st.image(lesbian_society_regplot)
 
     st.subheader(" 2. What relationship is there, if any, between the percentage of people who support gay and lesbian marriage and the amount of anti-gay or anti-lesbian hate crimes per capita?")
 
@@ -1113,11 +1110,11 @@ if page_view == ("See Political Data Analysis"):
 
     st.write("For the anti-gay data, the coefficient was -0.56 with a p-value of 0.009, which suggests a **moderate negative relationship which is statistically significant**. A scattlerplot of the data is shown below:")
 
-    st.image("streamlit\gay_marriage.png")
+    st.image(gay_marriage_regplot)
 
     st.write('The anti-lesbian data showed a **strong negative relationship with a high statistical significance** with a coefficient of -0.8 and a p-value of 0.000006. A regression plot of the data is shown below:')
 
-    st.image("streamlit\lesbian_marriage.png")
+    st.image(lesbian_marriage_regplot)
 
 
     st.subheader("Future Questions")
