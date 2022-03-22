@@ -304,6 +304,8 @@ def make_bias_line(bias):
     chart = alt.layer(line, selectors, points, rules, text).properties(width=700, height=400).configure_axis(labelFontSize=18, titleFontSize=18)
     return chart
 
+# scale=alt.Scale(bins=[0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1],  domain=[0,1])    
+
 anti_american_indian_or_alaska_native = make_bias_line("anti_american_indian_or_alaska_native")
 anti_arab = make_bias_line("anti_arab") 
 anti_asian = make_bias_line("anti_asian")
@@ -345,7 +347,7 @@ st.markdown("###### by [Stetson Done](https://www.linkedin.com/in/stetson-done/)
 with st.sidebar:
     st.subheader("Welcome!")
     st.write("| click below to navigate page view |")
-    page_view = st.radio("What would you like to see?", ("About", "See All U.S. Data", "Compare States", "Compare Hate Crime Bias Categories", "See Political Data Analysis", "See Raw Data"))
+    page_view = st.radio("What would you like to see?", ("About", "See All U.S. Data", "Compare States", "See Trends for Hate Crime Biases", "See Political Data Analysis", "See Raw Data"))
 
 #### ABOUT SECTION ######
 
@@ -420,14 +422,16 @@ if page_view == ("See All U.S. Data"):
 
 # totals vs specific biases
 
-if page_view == ("Compare Hate Crime Bias Categories"):
+if page_view == ("See Trends for Hate Crime Biases"):
 
     total_incidents = st.checkbox('Display U.S. Combined Totals', value=False)
     if total_incidents:
         st.subheader("U.S. Total Incidents Per Capita Combined")
         st.altair_chart(us_chart)
 
-    st.subheader("Compare Trends of Hate Crime Biases")
+    st.subheader("See Trends for Hate Crime Bias Categories")
+    st.caption("Per capita values are per 100,000 people.")
+    st.caption("Note: The Y-axis values change in each chart due to the high variance in values across categories. (For example - some biases average .005 hate crimes per capita while others average .5 hate crimes per capita - big difference)! These charts should only be used to analyze trends over time.")
 
     bias_totals_selection = st.selectbox("Category 1:", ("Select Category",
     'Anti-Arab',
@@ -909,7 +913,7 @@ if page_view == ("Compare States"):
         st.altair_chart(minnesota_chart)
 # Mississippi Line Chart
     if state_selector_2 == ('Mississippi'):
-        st.altair_chart(mississippi_chart)
+        st.altair_chart(mississippi_chart) 
 # Missouri Line Chart
     if state_selector_2 == ('Missouri'):
         st.altair_chart(missouri_chart)
