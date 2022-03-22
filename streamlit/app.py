@@ -10,7 +10,7 @@ from pathlib import Path
 
 # setting up csv paths
 
-@st.cache(persist=True, allow_output_mutation=True)
+@st.experimental_memo()
 def get_path(csv):
     return Path("datasets", csv)
 
@@ -57,6 +57,21 @@ pc_2018 = get_path("per_capita_2018.csv")
 pc_2019 = get_path("per_capita_2019.csv")
 pc_2020 = get_path("per_capita_2020.csv")
 bias_csv = get_path("bias_per_capita.csv")
+
+
+# get image paths
+
+@st.experimental_memo()
+def get_image_path(csv):
+    return Path("images", csv)
+
+gay_marriage_regplot = get_image_path("gay_marriage.png")
+gay_society_regplot = get_image_path("gay_society_regplot.png")
+lesbian_marriage_regplot = get_image_path("lesbian_marriage.png")
+lesbian_society_regplot = get_image_path("lesbian_society_regplot.png")
+
+
+
 # loading data in for app 
 
 @st.experimental_memo()
@@ -166,6 +181,20 @@ points = line_us_data.mark_point().encode(opacity=alt.condition(nearest, alt.val
 text = line_us_data.mark_text(align='left', dx=5, dy=-5, color='white').encode(text=alt.condition(nearest, 'total_incidents_per_capita', alt.value(' ')))
 rules = alt.Chart(source_us_totals).mark_rule(color='gray').encode(x='year',).transform_filter(nearest)
 us_chart = alt.layer(line_us_data, selectors, points, rules, text).properties(width=700, height=400).configure_axis(labelFontSize=18, titleFontSize=18)
+
+
+@st.experimental_memo()
+def make_us_zoomed():
+    nearest = alt.selection(type='single', nearest=True, on='mouseover', fields=['year'], empty='none') # creates interactivity on mouseover of chart
+    line = alt.Chart(source_us_totals).mark_line(interpolate='basis').encode(alt.X('year',axis=alt.Axis(title="Year")), alt.Y('total_incidents_per_capita', axis=alt.Axis(title="Hate Crimes Per Capita"), scale=alt.Scale(bins=[0,0.5,1,1.5,2,2.5,3,3.5], domain=[0,3.5])))
+    selectors = alt.Chart(source_us_totals).mark_point().encode(x='year', opacity=alt.value(0),).add_selection(nearest)
+    points = line.mark_point().encode(opacity=alt.condition(nearest, alt.value(1), alt.value(0)))
+    text = line.mark_text(align='left', dx=5, dy=-5, color='white').encode(text=alt.condition(nearest, 'total_incidents_per_capita', alt.value(' ')))
+    rules = alt.Chart(source_us_totals).mark_rule(color='gray').encode(x='year',).transform_filter(nearest)
+    chart = alt.layer(line, selectors, points, rules, text).properties(width=700, height=400).configure_axis(labelFontSize=18, titleFontSize=18)
+    return chart
+
+us_chart_zoomed = make_us_zoomed()
 
 
 # prep data for state line charts
@@ -418,7 +447,7 @@ if page_view == ("See All U.S. Data"):
 
     st.subheader("Total Hate Crimes Per Capita - U.S. 2000-2020")
     st.caption("(Per capita values are shown per 100,000 people)")
-    st.altair_chart(us_chart)
+    st.altair_chart(us_chart_zoomed)
 
 # totals vs specific biases
 
@@ -427,13 +456,13 @@ if page_view == ("See Trends for Hate Crime Biases"):
     total_incidents = st.checkbox('Display U.S. Combined Totals', value=False)
     if total_incidents:
         st.subheader("U.S. Total Incidents Per Capita Combined")
-        st.altair_chart(us_chart)
+        st.altair_chart(us_chart_zoomed)
 
     st.subheader("See Trends for Hate Crime Bias Categories")
     st.caption("Per capita values are per 100,000 people.")
     st.caption("Note: The Y-axis values change in each chart due to the high variance in values across categories. (For example - some biases average .005 hate crimes per capita while others average .5 hate crimes per capita - big difference)! These charts should only be used to analyze trends over time.")
 
-    bias_totals_selection = st.selectbox("Category 1:", ("Select Category",
+    bias_totals_selection = st.selectbox("Hate Crime Bias:", ("Select Category",
     'Anti-Arab',
     'Anti-Asian',
     'Anti-Atheist or Agnostic',
@@ -552,124 +581,124 @@ if page_view == ("See Trends for Hate Crime Biases"):
         st.subheader("Anti-LGBTQ (grouped) Hate Crimes Per Capita")
         st.write(anti_lgbtq_grouped)
 
-    bias_totals_selection_2 = st.selectbox("Category 2:", ("Select Category",
-    'Anti-Arab',
-    'Anti-Asian',
-    'Anti-Atheist or Agnostic',
-    'Anti-Bisexual',
-    'Anti-Black or African American',
-    'Anti-Buddhist',
-    'Anti-Catholic',
-    'Anti-Eastern Orthodox (Russian, Greek, and other)',
-    'Anti-Female',
-    'Anti-Gay (male)',
-    'Anti-Gender Non-Conforming',
-    'Anti-Heterosexual',
-    'Anti-Hindu',
-    'Anti-Hispanic or Latino',
-    'Anti-Islamic (muslim)',
-    'Anti-Jehovahs Witness',
-    'Anti-Jewish',
-    'Anti-Lesbian (female)',
-    'Anti-Male',
-    'Anti-Mental Disability',
-    'Anti-Mormon',
-    'Anti-Native American'
-    'Anti-Pacific Islander',
-    'Anti-Physical Disability',
-    'Anti-Protestant',
-    'Anti-Sikh',
-    'Anti-Transgender',
-    'Anti-White',
-    'Anti-LGBTQ (grouped)'), key=2)
+    # bias_totals_selection_2 = st.selectbox("Category 2:", ("Select Category",
+    # 'Anti-Arab',
+    # 'Anti-Asian',
+    # 'Anti-Atheist or Agnostic',
+    # 'Anti-Bisexual',
+    # 'Anti-Black or African American',
+    # 'Anti-Buddhist',
+    # 'Anti-Catholic',
+    # 'Anti-Eastern Orthodox (Russian, Greek, and other)',
+    # 'Anti-Female',
+    # 'Anti-Gay (male)',
+    # 'Anti-Gender Non-Conforming',
+    # 'Anti-Heterosexual',
+    # 'Anti-Hindu',
+    # 'Anti-Hispanic or Latino',
+    # 'Anti-Islamic (muslim)',
+    # 'Anti-Jehovahs Witness',
+    # 'Anti-Jewish',
+    # 'Anti-Lesbian (female)',
+    # 'Anti-Male',
+    # 'Anti-Mental Disability',
+    # 'Anti-Mormon',
+    # 'Anti-Native American'
+    # 'Anti-Pacific Islander',
+    # 'Anti-Physical Disability',
+    # 'Anti-Protestant',
+    # 'Anti-Sikh',
+    # 'Anti-Transgender',
+    # 'Anti-White',
+    # 'Anti-LGBTQ (grouped)'), key=2)
 
-    if bias_totals_selection_2 == ('Anti-Arab'):
-        st.subheader("Anti-Arab Hate Crimes Per Capita")
-        st.write(anti_arab)
-    if bias_totals_selection_2 == ('Anti-Asian'):
-        st.subheader("Anti-Asian Hate Crimes Per Capita")
-        st.write(anti_asian)
-    if bias_totals_selection_2 == ('Anti-Atheist or Agnostic'):
-        st.subheader("Anti-Atheist or Agnostic Hate Crimes Per Capita")
-        st.write(anti_atheism_agnosticism)
-    if bias_totals_selection_2 == ('Anti-Bisexual'):
-        st.subheader("Anti-Bisexual Hate Crimes Per Capita")
-        st.write(anti_bisexual)
-    if bias_totals_selection_2 == ('Anti-Black or African American'):
-        st.subheader("Anti-Black or African American Hate Crimes Per Capita")
-        st.write(anti_black_or_african_american)
-    if bias_totals_selection_2 == ('Anti-Buddhist'):
-        st.subheader("Anti-Buddhist Hate Crimes Per Capita")
-        st.write(anti_buddhist)
-    if bias_totals_selection_2 == ('Anti-Catholic'):
-        st.subheader("Anti-Catholic Hate Crimes Per Capita")
-        st.write(anti_catholic)
-    if bias_totals_selection_2 == ('Anti-Eastern Orthodox (Russian, Greek, and other)'):
-        st.subheader("Anti-Eastern Orthodox (Russian, Greek, and other) Hate Crimes Per Capita")
-        st.write(anti_eastern_orthodox_russian_greek_other)
-    if bias_totals_selection_2 == ('Anti-Female'):
-        st.subheader("Anti-Female Hate Crimes Per Capita")
-        st.write(anti_female)
-    if bias_totals_selection_2 == ('Anti-Gay (male)'):
-        st.subheader("Anti-Gay (male) Hate Crimes Per Capita")
-        st.write(anti_gay_male)
-    if bias_totals_selection_2 == ('Anti-Gender Non-Conforming'):
-        st.subheader("Anti-Gender Non-Conforming Hate Crimes Per Capita")
-        st.write(anti_gender_non_conforming)
-    if bias_totals_selection_2 == ('Anti-Heterosexual'):
-        st.subheader("Anti-Heterosexual Hate Crimes Per Capita")
-        st.write(anti_heterosexual)
-    if bias_totals_selection_2 == ('Anti-Hindu'):
-        st.subheader("Anti-Hindu Hate Crimes Per Capita")
-        st.write(anti_hindu)
-    if bias_totals_selection_2 == ('Anti-Hispanic or Latino'):
-        st.subheader("Anti-Hispanic or Latino Hate Crimes Per Capita")
-        st.write(anti_hispanic_or_latino)
-    if bias_totals_selection_2 == ('Anti-Islamic (muslim)'):
-        st.subheader("Anti-Islamic (muslim) Hate Crimes Per Capita")
-        st.write(anti_islamic_muslim)
-    if bias_totals_selection_2 == ('Anti-Jehovahs Witness'):
-        st.subheader("Anti-Jehovah's Witness Hate Crimes Per Capita")
-        st.write(anti_jehovahs_witness)
-    if bias_totals_selection_2 == ('Anti-Jewish'):
-        st.subheader("Anti-Jewish Hate Crimes Per Capita")
-        st.write(anti_jewish)
-    if bias_totals_selection_2 == ('Anti-Lesbian (female)'):
-        st.subheader("Anti-Lesbian (female) Hate Crimes Per Capita")
-        st.write(anti_lesbian_female)
-    if bias_totals_selection_2 == ('Anti-Male'):
-        st.subheader("Anti-Male Hate Crimes Per Capita")
-        st.write(anti_male)
-    if bias_totals_selection_2 == ('Anti-Mental Disability'):
-        st.subheader("Anti-Mental Disability Hate Crimes Per Capita")
-        st.write(anti_mental_disability)
-    if bias_totals_selection_2 == ('Anti-Mormon'):
-        st.subheader("Anti-Mormon Hate Crimes Per Capita")
-        st.write(anti_mormon)
-    if bias_totals_selection_2 == ('Anti-Native American'):
-        st.subheader("Anti-Native American Hate Crimes Per Capita")
-        st.write(anti_american_indian_or_alaska_native)
-    if bias_totals_selection_2 == ('Anti-Pacific Islander'):
-        st.subheader("Anti-Pacific Islander Hate Crimes Per Capita")
-        st.write(anti_native_hawaiian_or_other_pacific_islander)
-    if bias_totals_selection_2 == ('Anti-Physical Disability'):
-        st.subheader("Anti-Physical Disability Hate Crimes Per Capita")
-        st.write(anti_physical_disability)
-    if bias_totals_selection_2 == ('Anti-Protestant'):
-        st.subheader("Anti-Protestant Hate Crimes Per Capita")
-        st.write(anti_protestant)
-    if bias_totals_selection_2 == ('Anti-Sikh'):
-        st.subheader("Anti-Sikh Hate Crimes Per Capita")
-        st.write(anti_sikh)
-    if bias_totals_selection_2 == ('Anti-Transgender'):
-        st.subheader("Anti-Transgender Hate Crimes Per Capita")
-        st.write(anti_transgender)
-    if bias_totals_selection_2 == ('Anti-White'):
-        st.subheader("Anti-White Hate Crimes Per Capita")
-        st.write(anti_white)
-    if bias_totals_selection_2 == ('Anti-LGBTQ (grouped)'):
-        st.subheader("Anti-LGBTQ (grouped) Hate Crimes Per Capita")
-        st.write(anti_lgbtq_grouped)
+    # if bias_totals_selection_2 == ('Anti-Arab'):
+    #     st.subheader("Anti-Arab Hate Crimes Per Capita")
+    #     st.write(anti_arab)
+    # if bias_totals_selection_2 == ('Anti-Asian'):
+    #     st.subheader("Anti-Asian Hate Crimes Per Capita")
+    #     st.write(anti_asian)
+    # if bias_totals_selection_2 == ('Anti-Atheist or Agnostic'):
+    #     st.subheader("Anti-Atheist or Agnostic Hate Crimes Per Capita")
+    #     st.write(anti_atheism_agnosticism)
+    # if bias_totals_selection_2 == ('Anti-Bisexual'):
+    #     st.subheader("Anti-Bisexual Hate Crimes Per Capita")
+    #     st.write(anti_bisexual)
+    # if bias_totals_selection_2 == ('Anti-Black or African American'):
+    #     st.subheader("Anti-Black or African American Hate Crimes Per Capita")
+    #     st.write(anti_black_or_african_american)
+    # if bias_totals_selection_2 == ('Anti-Buddhist'):
+    #     st.subheader("Anti-Buddhist Hate Crimes Per Capita")
+    #     st.write(anti_buddhist)
+    # if bias_totals_selection_2 == ('Anti-Catholic'):
+    #     st.subheader("Anti-Catholic Hate Crimes Per Capita")
+    #     st.write(anti_catholic)
+    # if bias_totals_selection_2 == ('Anti-Eastern Orthodox (Russian, Greek, and other)'):
+    #     st.subheader("Anti-Eastern Orthodox (Russian, Greek, and other) Hate Crimes Per Capita")
+    #     st.write(anti_eastern_orthodox_russian_greek_other)
+    # if bias_totals_selection_2 == ('Anti-Female'):
+    #     st.subheader("Anti-Female Hate Crimes Per Capita")
+    #     st.write(anti_female)
+    # if bias_totals_selection_2 == ('Anti-Gay (male)'):
+    #     st.subheader("Anti-Gay (male) Hate Crimes Per Capita")
+    #     st.write(anti_gay_male)
+    # if bias_totals_selection_2 == ('Anti-Gender Non-Conforming'):
+    #     st.subheader("Anti-Gender Non-Conforming Hate Crimes Per Capita")
+    #     st.write(anti_gender_non_conforming)
+    # if bias_totals_selection_2 == ('Anti-Heterosexual'):
+    #     st.subheader("Anti-Heterosexual Hate Crimes Per Capita")
+    #     st.write(anti_heterosexual)
+    # if bias_totals_selection_2 == ('Anti-Hindu'):
+    #     st.subheader("Anti-Hindu Hate Crimes Per Capita")
+    #     st.write(anti_hindu)
+    # if bias_totals_selection_2 == ('Anti-Hispanic or Latino'):
+    #     st.subheader("Anti-Hispanic or Latino Hate Crimes Per Capita")
+    #     st.write(anti_hispanic_or_latino)
+    # if bias_totals_selection_2 == ('Anti-Islamic (muslim)'):
+    #     st.subheader("Anti-Islamic (muslim) Hate Crimes Per Capita")
+    #     st.write(anti_islamic_muslim)
+    # if bias_totals_selection_2 == ('Anti-Jehovahs Witness'):
+    #     st.subheader("Anti-Jehovah's Witness Hate Crimes Per Capita")
+    #     st.write(anti_jehovahs_witness)
+    # if bias_totals_selection_2 == ('Anti-Jewish'):
+    #     st.subheader("Anti-Jewish Hate Crimes Per Capita")
+    #     st.write(anti_jewish)
+    # if bias_totals_selection_2 == ('Anti-Lesbian (female)'):
+    #     st.subheader("Anti-Lesbian (female) Hate Crimes Per Capita")
+    #     st.write(anti_lesbian_female)
+    # if bias_totals_selection_2 == ('Anti-Male'):
+    #     st.subheader("Anti-Male Hate Crimes Per Capita")
+    #     st.write(anti_male)
+    # if bias_totals_selection_2 == ('Anti-Mental Disability'):
+    #     st.subheader("Anti-Mental Disability Hate Crimes Per Capita")
+    #     st.write(anti_mental_disability)
+    # if bias_totals_selection_2 == ('Anti-Mormon'):
+    #     st.subheader("Anti-Mormon Hate Crimes Per Capita")
+    #     st.write(anti_mormon)
+    # if bias_totals_selection_2 == ('Anti-Native American'):
+    #     st.subheader("Anti-Native American Hate Crimes Per Capita")
+    #     st.write(anti_american_indian_or_alaska_native)
+    # if bias_totals_selection_2 == ('Anti-Pacific Islander'):
+    #     st.subheader("Anti-Pacific Islander Hate Crimes Per Capita")
+    #     st.write(anti_native_hawaiian_or_other_pacific_islander)
+    # if bias_totals_selection_2 == ('Anti-Physical Disability'):
+    #     st.subheader("Anti-Physical Disability Hate Crimes Per Capita")
+    #     st.write(anti_physical_disability)
+    # if bias_totals_selection_2 == ('Anti-Protestant'):
+    #     st.subheader("Anti-Protestant Hate Crimes Per Capita")
+    #     st.write(anti_protestant)
+    # if bias_totals_selection_2 == ('Anti-Sikh'):
+    #     st.subheader("Anti-Sikh Hate Crimes Per Capita")
+    #     st.write(anti_sikh)
+    # if bias_totals_selection_2 == ('Anti-Transgender'):
+    #     st.subheader("Anti-Transgender Hate Crimes Per Capita")
+    #     st.write(anti_transgender)
+    # if bias_totals_selection_2 == ('Anti-White'):
+    #     st.subheader("Anti-White Hate Crimes Per Capita")
+    #     st.write(anti_white)
+    # if bias_totals_selection_2 == ('Anti-LGBTQ (grouped)'):
+    #     st.subheader("Anti-LGBTQ (grouped) Hate Crimes Per Capita")
+    #     st.write(anti_lgbtq_grouped)
 
 
 # state totals - line charts
@@ -678,7 +707,7 @@ if page_view == ("See Trends for Hate Crime Biases"):
 if page_view == ("Compare States"):
     st.subheader("Compare State Trends - Number of Hate Crimes Per Capita")
     st.caption("(Per capita values are shown per 100,000 people. Data for Hawaii and U.S. territories not available).")
-    st.caption("Note: ")
+   
     
     
     us_totals = st.checkbox('Display U.S. Totals', value=False)
@@ -1070,13 +1099,13 @@ if page_view == ("See Political Data Analysis"):
 
     st.write("First, I ran a pearsonr calculation on the data, which provides a correlation coefficient and a p-value of two data sets. For the correlation coefficient, the closer the number is to -1 or 1, the stronger the correlation. For the p-value, anything under 0.05 is considered to be statistically significant.")
 
-    st.write("For the anti-gay hate crimes, the pearsonr calculation showed a coefficient of -0.5 and p-value of 0.02, which suggests a **moderate negative relationship which is statistically significant.** In other words, as the the percent of people who believed homosexuality should be accepted by society increased, the anti-gay hate crimes per capita decreased. A scatterplot of the two variables is shown below:")
+    st.write("For the anti-gay hate crimes, the pearsonr calculation showed a coefficient of -0.5 and p-value of 0.02, which suggests a **moderate negative relationship which is statistically significant.** In other words, as the the percent of people who believed homosexuality should be accepted by society increased, the anti-gay hate crimes per capita decreased. A regression plot of the two variables is shown below:")
 
-    st.header("[add plot]")
+    st.image("images\gay_society_regplot.png")
 
-    st.write("For the anti-lesbian hate crimes, the coefficient and p-value from the pearsonr calculation were -0.8 and -0.00001 respectively, which indicates a **strong negative relationship with high statistical significance.** A scatterplot of the two variables is shown below: ")
+    st.write("For the anti-lesbian hate crimes, the coefficient and p-value from the pearsonr calculation were -0.8 and -0.00001 respectively, which indicates a **strong negative relationship with high statistical significance.** A regression plot of the two variables is shown below: ")
 
-    st.header("[add plot]")
+    st.image("images\lesbian_society_regplot.png")
 
     st.subheader(" 2. What relationship is there, if any, between the percentage of people who support gay and lesbian marriage and the amount of anti-gay or anti-lesbian hate crimes per capita?")
 
@@ -1084,11 +1113,11 @@ if page_view == ("See Political Data Analysis"):
 
     st.write("For the anti-gay data, the coefficient was -0.56 with a p-value of 0.009, which suggests a **moderate negative relationship which is statistically significant**. A scattlerplot of the data is shown below:")
 
-    st.header("[add plot]")
+    st.image("images\gay_marriage.png")
 
-    st.write('The anti-lesbian data showed a **strong negative relationship with a high statistical significance** with a coefficient of -0.8 and a p-value of 0.000006. A scatterplot of the data is shown below:')
+    st.write('The anti-lesbian data showed a **strong negative relationship with a high statistical significance** with a coefficient of -0.8 and a p-value of 0.000006. A regression plot of the data is shown below:')
 
-    st.header("[add plot]")
+    st.image("images\lesbian_marriage.png")
 
 
     st.subheader("Future Questions")
@@ -1096,7 +1125,7 @@ if page_view == ("See Political Data Analysis"):
     st.write("There are many more questions I would like to analyze in the future upon finding the appropriate data.") 
     st.write("For instance, can anything be identified which could explain the increase of hate crimes across the U.S. over the last six years? In the chart below, we can see the rate of hate crimes per capita has risen every year since 2014, back to levels on par with 2001 (post-9/11).")
     st.subheader("U.S. Hate Crimes Per Capita")
-    st.write(us_chart)
+    st.write(us_chart_zoomed)
 
     st.write("Similarly, I am very interested in what factors might explain this dramatic increase over the past 8 years of anti-transgender hate crimes:")
     st.caption("(Anti-Transgender hate crime was not tracked until 2012, thus the zero values until then. However, every year since anti-transgender crimes have been tracked, they have increased dramatically.)")
