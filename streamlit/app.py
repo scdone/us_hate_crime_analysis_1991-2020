@@ -62,10 +62,24 @@ bias_csv = get_path("bias_per_capita.csv")
 
 # get images
 
-gay_society_regplot = Image.open("streamlit\gay_society_regplot.png")
-gay_marriage_regplot = Image.open("streamlit\gay_marriage.png")
-lesbian_society_regplot = Image.open("streamlit\lesbian_society_regplot.png")
-lesbian_marriage_regplot = Image.open("streamlit\lesbian_marriage.png")
+@st.experimental_memo()
+def get_image_path(file):
+    return Path("images", file)
+
+gay_society_regplot_path = get_image_path("gay_society_regplot.png")
+gay_marriage_regplot_path = get_image_path("gay_marriage.png")
+lesbian_society_regplot_path = get_image_path("lesbian_society_regplot.png")
+lesbian_marriage_regplot_path = get_image_path("lesbian_marriage.png")
+
+@st.experimental_memo()
+def get_image(path):
+    return Image.open(path)
+
+
+gay_society_regplot = get_image(gay_society_regplot_path)
+gay_marriage_regplot = get_image(gay_marriage_regplot_path)
+lesbian_society_regplot = get_image(lesbian_society_regplot_path)
+lesbian_marriage_regplot = get_image(lesbian_marriage_regplot_path)
 
 
 
