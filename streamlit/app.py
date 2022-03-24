@@ -71,11 +71,11 @@ gay_marriage_regplot_path = get_image_path("gay_marriage.png")
 lesbian_society_regplot_path = get_image_path("lesbian_society_regplot.png")
 lesbian_marriage_regplot_path = get_image_path("lesbian_marriage.png")
 
-accepting_trend_path = get_image_path("percent_accepting_with_trend.jpg")
-accepting_diff_path = get_image_path("percent_accepting_difference.jpg")
+accepting_trend_path = get_image_path("percent_accepting_with_trend.JPG")
+accepting_diff_path = get_image_path("percent_accepting_difference.JPG")
 
-anti_gay_trend_path = get_image_path("anti_trend_trend.jpg")
-anti_gay_diff_path = get_image_path("anti_gay_difference.jpg")
+anti_gay_trend_path = get_image_path("anti_trend_trend.JPG")
+anti_gay_diff_path = get_image_path("anti_gay_difference.JPG")
 
 @st.experimental_memo()
 def get_image(path):
