@@ -18,15 +18,21 @@ Moreover, it is important to remember that due to the nature of hate crimes, vic
 
 
 ## Dataset Descriptions
->[FBI Hate Crime Dataset](/working_notebooks/dataset_descriptions/hate_crime_dataset_description.ipynb)
+>[FBI Hate Crime Dataset](/jupyter_notebooks/dataset_descriptions/hate_crime_dataset_description.ipynb)
 
 <br/>
 
->[US Census Population Dataset](working_notebooks\dataset_descriptions\population_dataset_description_and_wrangling.ipynb)
+>[US Census Population Dataset](jupyter_notebooks\dataset_descriptions\population_dataset_description_and_wrangling.ipynb)
+
+<br/>
+
+>[Pew Research Center Survey Data](jupyter_notebooks\dataset_descriptions\pew_research_dataset_description.ipynb)
 
 ## Data Wrangling and Cleaning
 >[Wrangling, cleaning, and merging datasets for dataframes](jupyter_notebooks\preparing_dataframe_wrangling_and_cleaning)
 
+## Exploratory Data Analysis
+>(working notebook link + short description)
 
 ## Project Findings & Key Insights
 >[see analysis in jupyter notebook here](jupyter_notebooks\analysis\correlation_analysis.ipynb)
