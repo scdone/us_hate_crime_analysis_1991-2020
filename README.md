@@ -127,7 +127,7 @@ Similarly, I am very interested in what factors might explain this dramatic incr
 
 #### Anti-Transgender Hate Crimes Per Capita
 
-[image](images\anti_transgender_totals.JPG)
+<img src="images\anti_transgender_totals.JPG"/>
 
 ### Conclusion
 
