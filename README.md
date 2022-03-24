@@ -59,11 +59,11 @@ First, I ran a pearsonr calculation on the data, which provides a correlation co
 
 For the anti-gay hate crimes, the pearsonr calculation showed a coefficient of -0.5 and p-value of 0.02, which suggests a **moderate negative relationship which is statistically significant.** In other words, as the the percent of people who believed homosexuality should be accepted by society increased, the anti-gay hate crimes per capita decreased. A regression plot of the two variables is shown below:
 
-[image](images\gay_society_regplot.png)
+<img src="images\gay_society_regplot.png"/>
 
 For the anti-lesbian hate crimes, the coefficient and p-value from the pearsonr calculation were -0.8 and -0.00001 respectively, which indicates a **strong negative relationship with high statistical significance.** A regression plot of the two variables is shown below: 
 
-[image](images\lesbian_society_regplot.png)
+<img src="images\lesbian_society_regplot.png"/>
 
 ###  2. What relationship is there, if any, between the percentage of people who support gay and lesbian marriage and the amount of anti-gay or anti-lesbian hate crimes per capita?
 
@@ -71,11 +71,11 @@ Similar to the analysis of the data above, the data used to answer this question
 
 For the anti-gay data, the coefficient was -0.56 with a p-value of 0.009, which suggests a **moderate negative relationship which is statistically significant**. A scattlerplot of the data is shown below:
 
-[image](images\gay_society_regplot.png)
+<img src="images\gay_society_regplot.png"/>
 
 The anti-lesbian data showed a **strong negative relationship with a high statistical significance** with a coefficient of -0.8 and a p-value of 0.000006. A regression plot of the data is shown below:
 
-[image](images\lesbian_marriage.png)
+<img src="images\lesbian_marriage.png"/>
 
 ### Limitations
 
@@ -86,19 +86,19 @@ When using data over the course of time, it is often useful to take the “first
 
 >Line plot of trend over time (percent of people accepting of homosexuality)
 
-[image](images\percent_accepting_with_trend.JPG)
+<img src="images\percent_accepting_with_trend.JPG"/>
     
 >Line plot of "first difference" values (percent of people accepting of homosexuality)
 
-[image](images\percent_accepting_difference.JPG)
+<img src="images\percent_accepting_difference.JPG"/>
 
 >Line plot of trend over time (anti-gay hate crimes per capita)
 
-[image](images\anti_trend_trend.JPG)
+<img src="images\anti_trend_trend.JPG"/>
     
 >Line plot of "first difference" values (anti-gay hate crimes per capita)
 
-[image](images\anti_gay_difference.JPG)  
+<img src="images\anti_gay_difference.JPG"/>
 
 The reason this is necessary is to see if values are actually correlated to each other (one goes up or down and the other goes up or down in tandem) or if they are both simply correlated to time. 
 
@@ -119,13 +119,12 @@ For instance, can anything be identified which could explain the increase of hat
 
 ### U.S. Hate Crimes Per Capita
 
-[image](images\us_total.JPG)
+<img src="images\us_total.JPG"/>
 
 Similarly, I am very interested in what factors might explain this dramatic increase over the past 8 years of anti-transgender hate crimes:
 
 >(Anti-Transgender hate crime was not tracked until 2012, thus the zero values until then. However, every year since anti-transgender crimes have been tracked, they have increased dramatically.)
 
-#### Anti-Transgender Hate Crimes Per Capita
 
 <img src="images\anti_transgender_totals.JPG"/>
 
